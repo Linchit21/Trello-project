@@ -15,7 +15,7 @@
   border-radius: 50px;
   justify-content: space-between;
   align-items: center;
-  max-width: 800px;
+  max-width: 1200px;
   margin: auto;
   padding: 50px;
   display: flex;
@@ -36,7 +36,7 @@
 .todo-blocks {
   text-align: center;
   justify-content: space-between;
-  max-width: 600px;
+  max-width: 1200px;
   margin: 50px auto auto;
   display: flex;
 }
@@ -44,8 +44,53 @@
 .item {
   background-color: #7fffd4;
   border: 2px solid #000;
-  align-content: center;
-  width: 150px;
-  height: 300px;
+  border-radius: 30px;
+  max-width: 350px;
+  padding: 50px;
+}
+
+.todo-header {
+  border: 2px solid #000;
+  border-radius: 20px;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding: 10px;
+  display: flex;
+}
+
+.todo-work {
+  background-color: #80ca80;
+  border: 2px solid red;
+  border-radius: 30px;
+  padding: 10px;
+}
+
+.todo-work__title {
+  gap: 10px;
+  display: flex;
+}
+
+.todo-work__button_edit {
+  margin-left: 50px;
+}
+
+.todo-work__discription, .todo-work__user {
+  justify-content: space-between;
+  margin-top: 20px;
+  display: flex;
+}
+
+.todo-work_success {
+  background-color: #80ca80;
+}
+
+.todo-work_error {
+  background-color: #af8e51;
+  margin-top: 50px;
+}
+
+.todo-work__button_add-todo {
+  width: 240px;
+  margin-top: 50px;
 }
 /*# sourceMappingURL=index.fcb3f8e3.css.map */

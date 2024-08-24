@@ -10,7 +10,7 @@
 }
 
 .container {
-  max-width: 800px;
+  max-width: 1200px;
   background-color: blueviolet;
   margin: auto;
   display: flex;
@@ -35,7 +35,7 @@
 
 .todo-blocks {
   margin: auto;
-  max-width: 600px;
+  max-width: 1200px;
   margin-top: 50px;
   display: flex;
   justify-content: space-between;
@@ -43,9 +43,60 @@
 }
 
 .item {
-  width: 150px;
-  height: 300px;
+  max-width: 350px;
   border: 2px solid black;
-  align-content: center;
   background-color: aquamarine;
+  border-radius: 30px;
+  padding: 50px;
+}
+
+.todo-header {
+  display: flex;
+  justify-content: space-between;
+  border: 2px solid black;
+  border-radius: 20px;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.todo-work {
+  padding: 10px;
+  border: 2px solid red;
+  border-radius: 30px;
+  background-color: rgb(128, 202, 128);
+
+  &__title {
+    display: flex;
+    gap: 10px;
+  }
+
+  &__button_edit {
+    margin-left: 50px;
+  }
+
+  &__discription {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+
+  &__user {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+
+  &_success {
+    background-color: rgb(128, 202, 128);
+  }
+
+  &_error {
+    background-color: rgb(175, 142, 81);
+    margin-top: 50px;
+  }
+
+  &__button_add-todo {
+    width: 240px;
+    margin-top: 50px;
+  }
 }
