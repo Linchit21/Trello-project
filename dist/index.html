@@ -17,12 +17,12 @@
     </header>
     <main class="main">
       <div class="todo-blocks">
-        <div class="todo-blocks__todo item">
+        <div class="todo item" id="task">
           <div class="todo-header">
             <p class="todo-header__text">TODO:</p>
             <div class="todo-header__number">2</div>
           </div>
-          <div class="todo-work todo-work_success">
+          <!-- <div class="todo-work todo-work_success">
             <div class="todo-work__title">
               <p class="todo-work__text">Title</p>
               <button type="button" class="btn btn-primary todo-work__button_edit btn-sm">
@@ -34,7 +34,10 @@
             </div>
             <div class="todo-work__discription">
               <p>Discription</p>
-              <button type="button" class="btn btn-primary todo-work__button_delete btn-sm todo-work__button_enter">
+              <button
+                type="button"
+                class="btn btn-primary todo-work__button_delete btn-sm todo-work__button_enter"
+              >
                 =>
               </button>
             </div>
@@ -55,7 +58,10 @@
             </div>
             <div class="todo-work__discription">
               <p>Discription</p>
-              <button type="button" class="btn btn-primary todo-work__button_delete btn-sm todo-work__button_enter">
+              <button
+                type="button"
+                class="btn btn-primary todo-work__button_delete btn-sm todo-work__button_enter"
+              >
                 =>
               </button>
             </div>
@@ -63,12 +69,10 @@
               <p>User</p>
               <p>Time</p>
             </div>
-          </div>
-          <button type="button" class="todo-work__button_add-todo">
-            Add ToDo
-          </button>
+          </div> -->
+          <button type="button" class="todo-work__button_add-todo" id="add-todo">Add ToDo</button>
         </div>
-        <div class="todo-progress item">
+        <div class="todo item">
           <div class="todo-header">
             <p class="todo-header__text">IN PROGRESS:</p>
             <div class="todo-header__number">2</div>
@@ -95,7 +99,7 @@
             </div>
           </div>
         </div>
-        <div class="todo-blocks__done item">
+        <div class="todo item">
           <div class="todo-header">
             <p class="todo-header__text">Done:</p>
             <div class="todo-header__number">2</div>
@@ -142,10 +146,24 @@
               <p>Time</p>
             </div>
           </div>
-          <button type="button" class="todo-work__button_add-todo">
-            Delet all
-          </button>
+          <button type="button" class="todo-work__button_add-todo">Delet all</button>
         </div>
+      </div>
+      <div id="window">
+        <form class="modals">
+          <input type="text" class="modals__title" placeholder="Title" id="todo-title">
+          <textarea name="" id="todo-discription" class="modals__discription" placeholder="Discription"></textarea>
+          <select name="" id="users" class="modals__select">
+            <option value="John">John</option>
+            <option value="Kate">Kate</option>
+            <option value="Uma">Uma</option>
+            <option value="Michel">Mick</option>
+          </select>
+          <div>
+            <button type="button" class="modals__confirm" id="add-confirm">Confirm</button>
+            <button type="button" class="modals__cancel">Cancel</button>
+          </div>
+        </form>
       </div>
     </main>
   </body>
