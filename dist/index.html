@@ -20,7 +20,7 @@
         <div class="todo item" id="task">
           <div class="todo-header">
             <p class="todo-header__text">TODO:</p>
-            <div class="todo-header__number">2</div>
+            <div class="todo-header__number"></div>
           </div>
           <!-- <div class="todo-work todo-work_success">
             <div class="todo-work__title">
@@ -36,7 +36,7 @@
               <p>Discription</p>
               <button
                 type="button"
-                class="btn btn-primary todo-work__button_delete btn-sm todo-work__button_enter"
+                class="btn btn-primary btn-sm todo-work__button_enter"
               >
                 =>
               </button>
@@ -72,24 +72,27 @@
           </div> -->
           <button type="button" class="todo-work__button_add-todo" id="add-todo">Add ToDo</button>
         </div>
-        <div class="todo item">
+        <div class="todo item" id="in-progress">
           <div class="todo-header">
             <p class="todo-header__text">IN PROGRESS:</p>
             <div class="todo-header__number">2</div>
           </div>
-          <div class="todo-work todo-work_success">
+          <!-- <div class="todo-work todo-work_success">
             <div class="todo-work__title">
               <p class="todo-work__text">Title</p>
-              <button type="button" class="btn btn-primary todo-work__button_edit btn-sm">
-                EDIT
+              <button type="button" class="btn btn-primary todo-work__button_back btn-sm">
+                BACK
               </button>
-              <button type="button" class="btn btn-primary todo-work__button_delete btn-sm">
-                DELETE
+              <button type="button" class="btn btn-primary todo-work__button_complete btn-sm">
+                COMPLETE
               </button>
             </div>
             <div class="todo-work__discription">
               <p>Discription</p>
-              <button type="button" class="btn btn-primary todo-work__button_delete btn-sm todo-work__button_enter">
+              <button
+                type="button"
+                class="btn btn-primary todo-work__button_delete btn-sm todo-work__button_enter"
+              >
                 =>
               </button>
             </div>
@@ -97,9 +100,9 @@
               <p>User</p>
               <p>Time</p>
             </div>
-          </div>
+          </div> -->
         </div>
-        <div class="todo item">
+        <div class="todo item" id="done">
           <div class="todo-header">
             <p class="todo-header__text">Done:</p>
             <div class="todo-header__number">2</div>
@@ -149,7 +152,7 @@
           <button type="button" class="todo-work__button_add-todo">Delet all</button>
         </div>
       </div>
-      <div id="window">
+      <div id="window" class="window-hide">
         <form class="modals">
           <input type="text" class="modals__title" placeholder="Title" id="todo-title">
           <textarea name="" id="todo-discription" class="modals__discription" placeholder="Discription"></textarea>
@@ -157,11 +160,11 @@
             <option value="John">John</option>
             <option value="Kate">Kate</option>
             <option value="Uma">Uma</option>
-            <option value="Michel">Mick</option>
+            <option value="Mick">Mick</option>
           </select>
           <div>
             <button type="button" class="modals__confirm" id="add-confirm">Confirm</button>
-            <button type="button" class="modals__cancel">Cancel</button>
+            <button type="button" class="modals__cancel" id="cancel">Cancel</button>
           </div>
         </form>
       </div>
