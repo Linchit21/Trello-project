@@ -91,6 +91,11 @@
   margin-top: 50px;
 }
 
+.todo-work__space {
+  background-color: #3b5974;
+  padding: 5px;
+}
+
 .todo-work__button_add-todo {
   width: 240px;
   margin-top: 50px;

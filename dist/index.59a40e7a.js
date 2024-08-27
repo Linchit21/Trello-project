@@ -584,6 +584,124 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 }
 
 },{}],"8lRBv":[function(require,module,exports) {
+var _declarationJs = require("./declaration.js");
+var _handlersJs = require("./handlers.js");
+// Модальное окно вкл и выкл, кнопка add
+(0, _declarationJs.buttonAddTodoElement).addEventListener("click", function() {
+    (0, _declarationJs.modalWindowElement).classList.toggle("window-hide");
+});
+// Спрятать модальное окно и сделать ресет формы, кнопка cancel в модалке
+(0, _declarationJs.buttonCancelTodoElement).addEventListener("click", function() {
+    (0, _declarationJs.modalWindowElement).classList.toggle("window-hide");
+    (0, _declarationJs.formElement).reset();
+});
+// Подтверждение и рендеринг TODO, кнопка confirm
+(0, _declarationJs.buttonConfirmTodoElement).addEventListener("click", (0, _handlersJs.handleMakeTodo));
+// Делегирование на блок TODO Task, кнопки: Edit, Delete, Enter
+(0, _declarationJs.todoBlockElement).addEventListener("click", (0, _handlersJs.handleChangingTodoTask));
+
+},{"./handlers.js":"jlk9X","./declaration.js":"3LNmn"}],"jlk9X":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "handleChangingTodoTask", ()=>handleChangingTodoTask);
+parcelHelpers.export(exports, "handleMakeTodo", ()=>handleMakeTodo);
+var _declarationJs = require("./declaration.js");
+var _helpersJs = require("./helpers.js");
+var _storeJs = require("./store.js");
+let isEdit = false;
+let dataId;
+// Подтверждение TODO и отрисовка
+const handleMakeTodo = function() {
+    const actualTodos = (0, _storeJs.getTodos)();
+    if (!isEdit) {
+        if ((0, _declarationJs.inputTitleTodoElement).value !== "" || (0, _declarationJs.inputDiscriptionTodoElement).value !== "") {
+            // починить сравнение !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            const newId = crypto.randomUUID();
+            const time = (0, _helpersJs.getActualTime)();
+            const userName = (0, _declarationJs.selectUserElement).selectedIndex;
+            function Todo() {
+                this.id = newId;
+                this.text = (0, _declarationJs.inputDiscriptionTodoElement).value;
+                this.title = (0, _declarationJs.inputTitleTodoElement).value;
+                this.createdAt = time;
+                this.userIndex = userName;
+            }
+            actualTodos.push(new Todo());
+            (0, _declarationJs.modalWindowElement).classList.toggle("window-hide");
+            (0, _declarationJs.spaceTodoElement).insertAdjacentHTML("beforeend", (0, _helpersJs.buildTemplateTodo)(newId, (0, _declarationJs.inputDiscriptionTodoElement).value, (0, _declarationJs.inputTitleTodoElement).value, time, userName));
+            (0, _declarationJs.counterTodoElement).textContent = actualTodos.length;
+            (0, _storeJs.setTodos)(actualTodos);
+            (0, _declarationJs.formElement).reset();
+            console.log(actualTodos);
+        }
+    } else {
+        const currentTodo = actualTodos[dataId];
+        const userName = (0, _declarationJs.selectUserElement).selectedIndex;
+        function Todo() {
+            this.id = currentTodo.id;
+            this.text = (0, _declarationJs.inputDiscriptionTodoElement).value;
+            this.title = (0, _declarationJs.inputTitleTodoElement).value;
+            this.createdAt = currentTodo.createdAt;
+            this.userIndex = userName;
+        }
+        actualTodos.splice(dataId, 1, new Todo());
+        (0, _declarationJs.spaceTodoElement).innerHTML = ""; // Очистка колонки
+        actualTodos.forEach((el)=>{
+            // Ререндер
+            (0, _declarationJs.spaceTodoElement).insertAdjacentHTML("beforeend", (0, _helpersJs.buildTemplateTodo)(el.id, el.text, el.title, el.createdAt, el.userIndex));
+        });
+        (0, _declarationJs.modalWindowElement).classList.toggle("window-hide");
+        (0, _declarationJs.counterTodoElement).textContent = actualTodos.length;
+        (0, _declarationJs.formElement).reset();
+        (0, _storeJs.setTodos)(actualTodos);
+        isEdit = false;
+    }
+};
+// Делегирование событий на блок TODO task
+const handleChangingTodoTask = function() {
+    const buttonEditElement = event.target.closest(".todo-work__button_edit");
+    const buttonDeleteElement = event.target.closest(".todo-work__button_delete");
+    const buttonEnterElement = event.target.closest(".todo-work__button_enter");
+    const actualTodos = (0, _storeJs.getTodos)();
+    const idElement = event.target.closest(".todo-work")?.getAttribute("id");
+    const todoIndex = actualTodos.findIndex((el)=>el.id == idElement);
+    if (buttonEditElement) {
+        // Редактирование карточки
+        isEdit = true;
+        dataId = todoIndex;
+        (0, _declarationJs.inputTitleTodoElement).value = actualTodos[todoIndex].title;
+        (0, _declarationJs.inputDiscriptionTodoElement).value = actualTodos[todoIndex].text;
+        (0, _declarationJs.modalWindowElement).classList.toggle("window-hide");
+    }
+    if (buttonDeleteElement) {
+        // Удаление карточки
+        buttonDeleteElement.closest(".todo-work").remove();
+        actualTodos.splice(todoIndex, 1);
+        (0, _declarationJs.counterTodoElement).textContent = actualTodos.length;
+    }
+    if (buttonEnterElement) {
+        // Подтверждение карточки и перенос в следующий блок
+        buttonEnterElement.closest(".todo-work").remove();
+        (0, _declarationJs.counterTodoElement).textContent = actualTodos.length;
+        (0, _declarationJs.todoInProgressElement).insertAdjacentHTML("beforeend", (0, _helpersJs.buildTemplateProgress)(actualTodos[todoIndex].id, actualTodos[todoIndex].text, actualTodos[todoIndex].title, actualTodos[todoIndex].createdAt, actualTodos[todoIndex].userIndex));
+    }
+};
+
+},{"./declaration.js":"3LNmn","./helpers.js":"hGI1E","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./store.js":"9NZPX"}],"3LNmn":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "buttonAddTodoElement", ()=>buttonAddTodoElement);
+parcelHelpers.export(exports, "modalWindowElement", ()=>modalWindowElement);
+parcelHelpers.export(exports, "buttonConfirmTodoElement", ()=>buttonConfirmTodoElement);
+parcelHelpers.export(exports, "buttonCancelTodoElement", ()=>buttonCancelTodoElement);
+parcelHelpers.export(exports, "inputTitleTodoElement", ()=>inputTitleTodoElement);
+parcelHelpers.export(exports, "inputDiscriptionTodoElement", ()=>inputDiscriptionTodoElement);
+parcelHelpers.export(exports, "todoBlockElement", ()=>todoBlockElement);
+parcelHelpers.export(exports, "todoInProgressElement", ()=>todoInProgressElement);
+parcelHelpers.export(exports, "selectUserElement", ()=>selectUserElement);
+parcelHelpers.export(exports, "formElement", ()=>formElement);
+parcelHelpers.export(exports, "counterTodoElement", ()=>counterTodoElement);
+parcelHelpers.export(exports, "spaceTodoElement", ()=>spaceTodoElement);
 const buttonAddTodoElement = document.querySelector("#add-todo");
 const modalWindowElement = document.querySelector("#window");
 const buttonConfirmTodoElement = document.querySelector("#add-confirm");
@@ -591,13 +709,49 @@ const buttonCancelTodoElement = document.querySelector("#cancel");
 const inputTitleTodoElement = document.querySelector("#todo-title");
 const inputDiscriptionTodoElement = document.querySelector("#todo-discription");
 const todoBlockElement = document.querySelector("#task");
-const inProgressElement = document.querySelector("#in-progress");
+const todoInProgressElement = document.querySelector("#in-progress");
 const selectUserElement = document.querySelector("#users");
 const formElement = document.querySelector(".modals");
 const counterTodoElement = document.querySelector(".todo-header__number");
-let isEdit = false;
-let dataId;
-let user = [];
+const spaceTodoElement = document.querySelector("#workspace");
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
+exports.interopDefault = function(a) {
+    return a && a.__esModule ? a : {
+        default: a
+    };
+};
+exports.defineInteropFlag = function(a) {
+    Object.defineProperty(a, "__esModule", {
+        value: true
+    });
+};
+exports.exportAll = function(source, dest) {
+    Object.keys(source).forEach(function(key) {
+        if (key === "default" || key === "__esModule" || Object.prototype.hasOwnProperty.call(dest, key)) return;
+        Object.defineProperty(dest, key, {
+            enumerable: true,
+            get: function() {
+                return source[key];
+            }
+        });
+    });
+    return dest;
+};
+exports.export = function(dest, destName, get) {
+    Object.defineProperty(dest, destName, {
+        enumerable: true,
+        get: get
+    });
+};
+
+},{}],"hGI1E":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "buildTemplateProgress", ()=>buildTemplateProgress);
+parcelHelpers.export(exports, "buildTemplateTodo", ()=>buildTemplateTodo);
+parcelHelpers.export(exports, "getActualTime", ()=>getActualTime);
+var _declarationJs = require("./declaration.js");
 function getActualTime() {
     const date = new Date(); // Data
     const createdAt = `${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate()}  ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
@@ -607,29 +761,29 @@ const buildTemplateTodo = (id, text, title, time, userName)=>{
     return `
         <div class="todo-work todo-work_success" id="${id}">
             <div class="todo-work__title">
-              <p class="todo-work__text">${title}</p>
-              <button type="button" class="btn btn-primary todo-work__button_edit btn-sm">
-                EDIT
-              </button>
-              <button type="button" class="btn btn-primary todo-work__button_delete btn-sm">
-                DELETE
-              </button>
-            </div>
-            <div class="todo-work__discription">
-              <p>${text}</p>
-              <button
-                type="button"
-                class="btn btn-primary btn-sm todo-work__button_enter"
-              >
-                =>
-              </button>
-            </div>
-            <div class="todo-work__user">
-              <p>${selectUserElement.options[userName].value}</p>
-              <p>${time}</p>
+                <p class="todo-work__text">${title}</p>
+                <button type="button" class="btn btn-primary todo-work__button_edit btn-sm">
+                  EDIT
+                </button>
+                <button type="button" class="btn btn-primary todo-work__button_delete btn-sm">
+                  DELETE
+                </button>
+              </div>
+              <div class="todo-work__discription">
+                <p>${text}</p>
+                <button
+                  type="button"
+                  class="btn btn-primary btn-sm todo-work__button_enter"
+                >
+                  =>
+                </button>
+              </div>
+              <div class="todo-work__user">
+                <p>${(0, _declarationJs.selectUserElement).options[userName].value}</p>
+                <p>${time}</p>
             </div>
         </div>
-    `;
+      `;
 };
 const buildTemplateProgress = (id, text, title, time, userName)=>{
     return `
@@ -653,93 +807,29 @@ const buildTemplateProgress = (id, text, title, time, userName)=>{
         </button>
     </div>
     <div class="todo-work__user">
-        <p>${selectUserElement.options[userName].value}</p>
+        <p>${(0, _declarationJs.selectUserElement).options[userName].value}</p>
         <p>${time}</p>
     </div>
 </div>
-      `;
+        `;
 };
-buttonAddTodoElement.addEventListener("click", function() {
-    // Окно вкл и выкл
-    modalWindowElement.classList.toggle("window-hide");
-});
-const handleMakeTodo = function() {
-    // Подтверждение TODO и отрисовка
-    if (!isEdit) {
-        if (inputTitleTodoElement.value !== "" || inputDiscriptionTodoElement.value !== "") {
-            // починить сравнение !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            const newId = crypto.randomUUID();
-            const time = getActualTime();
-            const userName = selectUserElement.selectedIndex;
-            function Todo() {
-                this.id = newId;
-                this.text = inputDiscriptionTodoElement.value;
-                this.title = inputTitleTodoElement.value;
-                this.createdAt = time;
-                this.userIndex = userName;
-            }
-            user.push(new Todo());
-            modalWindowElement.classList.toggle("window-hide");
-            console.log(user);
-            todoBlockElement.insertAdjacentHTML("beforeend", buildTemplateTodo(newId, inputDiscriptionTodoElement.value, inputTitleTodoElement.value, time, userName));
-            counterTodoElement.textContent = user.length;
-            formElement.reset();
-        }
-    } else {
-        const currentTodo = user[dataId];
-        const userName = selectUserElement.selectedIndex;
-        function Todo() {
-            this.id = currentTodo.id;
-            this.text = inputDiscriptionTodoElement.value;
-            this.title = inputTitleTodoElement.value;
-            this.createdAt = currentTodo.createdAt;
-            this.userIndex = userName;
-        }
-        user.splice(dataId, 1, new Todo());
-        todoBlockElement.innerHTML = ""; // Очистка колонки
-        user.forEach((el)=>{
-            // Ререндер
-            todoBlockElement.insertAdjacentHTML("beforeend", buildTemplateTodo(el.id, el.text, el.title, el.createdAt, el.userIndex));
-        });
-        modalWindowElement.classList.toggle("window-hide");
-        counterTodoElement.textContent = user.length;
-        formElement.reset();
-        isEdit = false;
-    }
-};
-buttonConfirmTodoElement.addEventListener("click", handleMakeTodo);
-buttonCancelTodoElement.addEventListener("click", function() {
-    modalWindowElement.classList.toggle("window-hide");
-    formElement.reset();
-});
-todoBlockElement.addEventListener("click", function() {
-    const buttonEditElement = event.target.closest(".todo-work__button_edit");
-    const buttonDeleteElement = event.target.closest(".todo-work__button_delete");
-    const buttonEnterElement = event.target.closest(".todo-work__button_enter");
-    const idElement = event.target.closest(".todo-work")?.getAttribute("id");
-    const todoIndex = user.findIndex((el)=>el.id == idElement);
-    if (buttonEditElement) {
-        // перезапись карточки!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        isEdit = true;
-        dataId = todoIndex;
-        inputTitleTodoElement.value = user[todoIndex].title;
-        inputDiscriptionTodoElement.value = user[todoIndex].text;
-        modalWindowElement.classList.toggle("window-hide");
-    }
-    if (buttonDeleteElement) {
-        // удаление карточки
-        buttonDeleteElement.closest(".todo-work").remove();
-        user.splice(todoIndex, 1);
-        counterTodoElement.textContent = user.length;
-    }
-    if (buttonEnterElement) {
-        // Подтверждение карточки и перенос в следующий блок
-        buttonEnterElement.closest(".todo-work").remove();
-        counterTodoElement.textContent = user.length;
-        inProgressElement.insertAdjacentHTML("beforeend", buildTemplateProgress(user[todoIndex].id, user[todoIndex].text, user[todoIndex].title, user[todoIndex].createdAt, user[todoIndex].userIndex));
-    }
-});
 
-},{}]},["aP7aF","8lRBv"], "8lRBv", "parcelRequire503a")
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./declaration.js":"3LNmn"}],"9NZPX":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "getTodos", ()=>getTodos);
+parcelHelpers.export(exports, "setTodos", ()=>setTodos);
+let user = [];
+function getTodos() {
+    // Возвращаем акутальный массив
+    return user;
+}
+function setTodos(value) {
+    // Обновление массива и запись в localStorage
+    user = value;
+//   localStorage.setItem(todosKey, JSON.stringify(todos));
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["aP7aF","8lRBv"], "8lRBv", "parcelRequire503a")
 
 //# sourceMappingURL=index.59a40e7a.js.map
