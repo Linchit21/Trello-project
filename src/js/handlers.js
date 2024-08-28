@@ -14,15 +14,36 @@ import {buildTemplateTodo, getActualTime} from './helpers.js';
 import {getTodos, setTodos} from './store.js';
 
 let isEdit = false;
-let dataId;
+let todoEditId;
+
+function findTodo(id) {
+  const actualTodos = getTodos();
+  const indexTodo = actualTodos.findIndex(el => el.id == id);
+  return actualTodos[indexTodo];
+}
+
+function editTodo(id, newValue) {
+  const actualTodos = getTodos();
+  const indexTodo = actualTodos.findIndex(el => el.id == id);
+  actualTodos[indexTodo] = {...actualTodos[indexTodo], ...newValue};
+  setTodos(actualTodos);
+}
+
+function deleteTodo(id) {
+  const actualTodos = getTodos();
+  const indexTodo = actualTodos.findIndex(el => el.id == id);
+  actualTodos.splice(indexTodo, 1);
+  setTodos(actualTodos);
+}
 
 // Подтверждение TODO и отрисовка
 const handleMakeTodo = function () {
   const actualTodos = getTodos();
 
-  function addSelectListener(el) {
+  function addSelectListener(el, selectValue = 'Todo') {
     const todoElement = document.getElementById(el.id);
     const selectStageElement = todoElement.querySelector('#select-todo');
+    selectStageElement.value = selectValue;
 
     selectStageElement.addEventListener('change', function () {
       switch (selectStageElement.value) {
@@ -30,22 +51,26 @@ const handleMakeTodo = function () {
           todoElement.remove();
           counterTodoElement.textContent = actualTodos.length; //
 
+          editTodo(el.id, {column: 'Todo'});
           buildTemplateTodo(el, spaceTodoElement);
-          addSelectListener(el);
+          addSelectListener(el, selectStageElement.value);
           break;
         case 'In progress':
           todoElement.remove();
           counterTodoElement.textContent = actualTodos.length;
 
+          editTodo(el.id, {column: 'In progress'});
           buildTemplateTodo(el, spaceProgressElement);
-          addSelectListener(el);
+          addSelectListener(el, selectStageElement.value);
+          console.log(actualTodos);
           break;
         case 'Done':
           todoElement.remove();
           counterTodoElement.textContent = actualTodos.length;
 
+          editTodo(el.id, {column: 'Done'});
           buildTemplateTodo(el, spaceDoneElement);
-          addSelectListener(el);
+          addSelectListener(el, selectStageElement.value);
           break;
         default:
           console.log('Sorry');
@@ -55,7 +80,6 @@ const handleMakeTodo = function () {
 
   if (!isEdit) {
     if (inputTitleTodoElement.value !== '' || inputDiscriptionTodoElement.value !== '') {
-      // починить сравнение !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       const newId = crypto.randomUUID();
       const time = getActualTime();
       const userName = selectUserElement.selectedIndex;
@@ -66,23 +90,13 @@ const handleMakeTodo = function () {
         this.title = inputTitleTodoElement.value;
         this.createdAt = time;
         this.userIndex = userName;
+        this.column = 'Todo';
       }
 
       const todo = new Todo();
 
       actualTodos.push(todo);
       modalWindowElement.classList.toggle('window-hide');
-
-      // spaceTodoElement.insertAdjacentHTML(
-      //   'beforeend',
-      //   buildTemplateTodo(
-      //     newId,
-      //     inputDiscriptionTodoElement.value,
-      //     inputTitleTodoElement.value,
-      //     time,
-      //     userName
-      //   )
-      // );
 
       buildTemplateTodo(todo, spaceTodoElement);
       addSelectListener(todo);
@@ -93,18 +107,12 @@ const handleMakeTodo = function () {
       console.log(actualTodos);
     }
   } else {
-    const currentTodo = actualTodos[dataId];
-    const userName = selectUserElement.selectedIndex;
+    editTodo(todoEditId, {
+      text: inputDiscriptionTodoElement.value,
+      title: inputTitleTodoElement.value,
+      userIndex: selectUserElement.selectedIndex,
+    });
 
-    function Todo() {
-      this.id = currentTodo.id;
-      this.text = inputDiscriptionTodoElement.value;
-      this.title = inputTitleTodoElement.value;
-      this.createdAt = currentTodo.createdAt;
-      this.userIndex = userName;
-    }
-
-    actualTodos.splice(dataId, 1, new Todo());
     spaceTodoElement.innerHTML = ''; // Очистка колонки
 
     actualTodos.forEach(el => {
@@ -116,7 +124,6 @@ const handleMakeTodo = function () {
 
     counterTodoElement.textContent = actualTodos.length;
     formElement.reset();
-    setTodos(actualTodos);
     isEdit = false;
   }
 };
@@ -125,18 +132,17 @@ const handleMakeTodo = function () {
 const handleChangingTodoTask = function () {
   const buttonEditElement = event.target.closest('.todo-work__button_edit');
   const buttonDeleteElement = event.target.closest('.todo-work__button_delete');
-  const buttonEnterElement = event.target.closest('.todo-work__button_enter');
-  const actualTodos = getTodos();
+
   const idElement = event.target.closest('.todo-work')?.getAttribute('id');
-  const todoIndex = actualTodos.findIndex(el => el.id == idElement);
+  const todo = findTodo(idElement);
 
   if (buttonEditElement) {
     // Редактирование карточки
     isEdit = true;
-    dataId = todoIndex;
+    todoEditId = idElement;
 
-    inputTitleTodoElement.value = actualTodos[todoIndex].title;
-    inputDiscriptionTodoElement.value = actualTodos[todoIndex].text;
+    inputTitleTodoElement.value = todo.title;
+    inputDiscriptionTodoElement.value = todo.text;
 
     modalWindowElement.classList.toggle('window-hide');
   }
@@ -144,26 +150,9 @@ const handleChangingTodoTask = function () {
   if (buttonDeleteElement) {
     // Удаление карточки
     buttonDeleteElement.closest('.todo-work').remove();
-    actualTodos.splice(todoIndex, 1);
-    counterTodoElement.textContent = actualTodos.length;
+    deleteTodo(idElement);
+    // counterTodoElement.textContent = actualTodos.length;
   }
-
-  // if (selectStageElement) {
-  // Подтверждение карточки и перенос в следующий блок
-  //   buttonEnterElement.closest('.todo-work').remove();
-  //   counterTodoElement.textContent = actualTodos.length;
-  //   spaceProgressElement.insertAdjacentHTML(
-  //     'beforeend',
-  //     buildTemplateTodo(
-  //       actualTodos[todoIndex].id,
-  //       actualTodos[todoIndex].text,
-  //       actualTodos[todoIndex].title,
-  //       actualTodos[todoIndex].createdAt,
-  //       actualTodos[todoIndex].userIndex
-  //     )
-  //   );
-  // }
-  // }
 };
 
 export {handleChangingTodoTask, handleMakeTodo};

@@ -611,32 +611,63 @@ var _declarationJs = require("./declaration.js");
 var _helpersJs = require("./helpers.js");
 var _storeJs = require("./store.js");
 let isEdit = false;
-let dataId;
+let todoEditId;
+function findTodo(id) {
+    const actualTodos = (0, _storeJs.getTodos)();
+    const indexTodo = actualTodos.findIndex((el)=>el.id == id);
+    return actualTodos[indexTodo];
+}
+function editTodo(id, newValue) {
+    const actualTodos = (0, _storeJs.getTodos)();
+    const indexTodo = actualTodos.findIndex((el)=>el.id == id);
+    actualTodos[indexTodo] = {
+        ...actualTodos[indexTodo],
+        ...newValue
+    };
+    (0, _storeJs.setTodos)(actualTodos);
+}
+function deleteTodo(id) {
+    const actualTodos = (0, _storeJs.getTodos)();
+    const indexTodo = actualTodos.findIndex((el)=>el.id == id);
+    actualTodos.splice(indexTodo, 1);
+    (0, _storeJs.setTodos)(actualTodos);
+}
 // Подтверждение TODO и отрисовка
 const handleMakeTodo = function() {
     const actualTodos = (0, _storeJs.getTodos)();
-    function addSelectListener(el) {
+    function addSelectListener(el, selectValue = "Todo") {
         const todoElement = document.getElementById(el.id);
         const selectStageElement = todoElement.querySelector("#select-todo");
+        selectStageElement.value = selectValue;
         selectStageElement.addEventListener("change", function() {
             switch(selectStageElement.value){
                 case "Todo":
                     todoElement.remove();
                     (0, _declarationJs.counterTodoElement).textContent = actualTodos.length; //
+                    editTodo(el.id, {
+                        column: "Todo"
+                    });
                     (0, _helpersJs.buildTemplateTodo)(el, (0, _declarationJs.spaceTodoElement));
-                    addSelectListener(el);
+                    addSelectListener(el, selectStageElement.value);
                     break;
                 case "In progress":
                     todoElement.remove();
                     (0, _declarationJs.counterTodoElement).textContent = actualTodos.length;
+                    editTodo(el.id, {
+                        column: "In progress"
+                    });
                     (0, _helpersJs.buildTemplateTodo)(el, (0, _declarationJs.spaceProgressElement));
-                    addSelectListener(el);
+                    addSelectListener(el, selectStageElement.value);
+                    console.log(actualTodos);
                     break;
                 case "Done":
                     todoElement.remove();
                     (0, _declarationJs.counterTodoElement).textContent = actualTodos.length;
+                    editTodo(el.id, {
+                        column: "Done"
+                    });
                     (0, _helpersJs.buildTemplateTodo)(el, (0, _declarationJs.spaceDoneElement));
-                    addSelectListener(el);
+                    addSelectListener(el, selectStageElement.value);
                     break;
                 default:
                     console.log("Sorry");
@@ -645,7 +676,6 @@ const handleMakeTodo = function() {
     }
     if (!isEdit) {
         if ((0, _declarationJs.inputTitleTodoElement).value !== "" || (0, _declarationJs.inputDiscriptionTodoElement).value !== "") {
-            // починить сравнение !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             const newId = crypto.randomUUID();
             const time = (0, _helpersJs.getActualTime)();
             const userName = (0, _declarationJs.selectUserElement).selectedIndex;
@@ -655,20 +685,11 @@ const handleMakeTodo = function() {
                 this.title = (0, _declarationJs.inputTitleTodoElement).value;
                 this.createdAt = time;
                 this.userIndex = userName;
+                this.column = "Todo";
             }
             const todo = new Todo();
             actualTodos.push(todo);
             (0, _declarationJs.modalWindowElement).classList.toggle("window-hide");
-            // spaceTodoElement.insertAdjacentHTML(
-            //   'beforeend',
-            //   buildTemplateTodo(
-            //     newId,
-            //     inputDiscriptionTodoElement.value,
-            //     inputTitleTodoElement.value,
-            //     time,
-            //     userName
-            //   )
-            // );
             (0, _helpersJs.buildTemplateTodo)(todo, (0, _declarationJs.spaceTodoElement));
             addSelectListener(todo);
             (0, _declarationJs.counterTodoElement).textContent = actualTodos.length;
@@ -677,16 +698,11 @@ const handleMakeTodo = function() {
             console.log(actualTodos);
         }
     } else {
-        const currentTodo = actualTodos[dataId];
-        const userName = (0, _declarationJs.selectUserElement).selectedIndex;
-        function Todo() {
-            this.id = currentTodo.id;
-            this.text = (0, _declarationJs.inputDiscriptionTodoElement).value;
-            this.title = (0, _declarationJs.inputTitleTodoElement).value;
-            this.createdAt = currentTodo.createdAt;
-            this.userIndex = userName;
-        }
-        actualTodos.splice(dataId, 1, new Todo());
+        editTodo(todoEditId, {
+            text: (0, _declarationJs.inputDiscriptionTodoElement).value,
+            title: (0, _declarationJs.inputTitleTodoElement).value,
+            userIndex: (0, _declarationJs.selectUserElement).selectedIndex
+        });
         (0, _declarationJs.spaceTodoElement).innerHTML = ""; // Очистка колонки
         actualTodos.forEach((el)=>{
             (0, _helpersJs.buildTemplateTodo)(el, (0, _declarationJs.spaceTodoElement));
@@ -695,7 +711,6 @@ const handleMakeTodo = function() {
         (0, _declarationJs.modalWindowElement).classList.toggle("window-hide");
         (0, _declarationJs.counterTodoElement).textContent = actualTodos.length;
         (0, _declarationJs.formElement).reset();
-        (0, _storeJs.setTodos)(actualTodos);
         isEdit = false;
     }
 };
@@ -703,40 +718,22 @@ const handleMakeTodo = function() {
 const handleChangingTodoTask = function() {
     const buttonEditElement = event.target.closest(".todo-work__button_edit");
     const buttonDeleteElement = event.target.closest(".todo-work__button_delete");
-    const buttonEnterElement = event.target.closest(".todo-work__button_enter");
-    const actualTodos = (0, _storeJs.getTodos)();
     const idElement = event.target.closest(".todo-work")?.getAttribute("id");
-    const todoIndex = actualTodos.findIndex((el)=>el.id == idElement);
+    const todo = findTodo(idElement);
     if (buttonEditElement) {
         // Редактирование карточки
         isEdit = true;
-        dataId = todoIndex;
-        (0, _declarationJs.inputTitleTodoElement).value = actualTodos[todoIndex].title;
-        (0, _declarationJs.inputDiscriptionTodoElement).value = actualTodos[todoIndex].text;
+        todoEditId = idElement;
+        (0, _declarationJs.inputTitleTodoElement).value = todo.title;
+        (0, _declarationJs.inputDiscriptionTodoElement).value = todo.text;
         (0, _declarationJs.modalWindowElement).classList.toggle("window-hide");
     }
     if (buttonDeleteElement) {
         // Удаление карточки
         buttonDeleteElement.closest(".todo-work").remove();
-        actualTodos.splice(todoIndex, 1);
-        (0, _declarationJs.counterTodoElement).textContent = actualTodos.length;
+        deleteTodo(idElement);
+    // counterTodoElement.textContent = actualTodos.length;
     }
-// if (selectStageElement) {
-// Подтверждение карточки и перенос в следующий блок
-//   buttonEnterElement.closest('.todo-work').remove();
-//   counterTodoElement.textContent = actualTodos.length;
-//   spaceProgressElement.insertAdjacentHTML(
-//     'beforeend',
-//     buildTemplateTodo(
-//       actualTodos[todoIndex].id,
-//       actualTodos[todoIndex].text,
-//       actualTodos[todoIndex].title,
-//       actualTodos[todoIndex].createdAt,
-//       actualTodos[todoIndex].userIndex
-//     )
-//   );
-// }
-// }
 };
 
 },{"./declaration.js":"3LNmn","./helpers.js":"hGI1E","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./store.js":"9NZPX"}],"3LNmn":[function(require,module,exports) {
@@ -849,6 +846,7 @@ function getTodos() {
 function setTodos(value) {
     // Обновление массива и запись в localStorage
     todos = value;
+    window.todos = todos;
 //   localStorage.setItem(todosKey, JSON.stringify(todos));
 }
 

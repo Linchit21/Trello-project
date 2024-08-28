@@ -16,14 +16,14 @@
 98C:\Projects\Frontend_JS\Kursacz\node_modules\css-select\node_modules\dom-serializer\lib\index.d.ts133689627563811448 0
 124C:\Projects\Frontend_JS\Kursacz\node_modules\@parcel\optimizer-htmlnano\node_modules\svgo\plugins\cleanupEnableBackground.js133689627562808209 0
 60C:\Projects\Frontend_JS\Kursacz\node_modules\@parcel\watcher133689627561310806 1
-47C:\Projects\Frontend_JS\Kursacz\src\js\store.js133693416789511735 0
+47C:\Projects\Frontend_JS\Kursacz\src\js\store.js133693488811922795 0
 116C:\Projects\Frontend_JS\Kursacz\node_modules\@parcel\optimizer-svgo\node_modules\svgo\plugins\cleanupListOfValues.js133689627563215692 0
 70C:\Projects\Frontend_JS\Kursacz\node_modules\@swc\counter\package.json133689627558690298 0
 93C:\Projects\Frontend_JS\Kursacz\node_modules\lmdb\node_modules\node-addon-api\tools\README.md133689627564851994 0
 98C:\Projects\Frontend_JS\Kursacz\node_modules\@parcel\optimizer-svgo\node_modules\csso\dist\csso.js133689627565242486 0
 90C:\Projects\Frontend_JS\Kursacz\node_modules\caniuse-lite\data\features\iframe-seamless.js133689627578324657 0
 49C:\Projects\Frontend_JS\Kursacz\src\scss\app.scss133692577069693457 0
-54C:\Projects\Frontend_JS\Kursacz\dist\index.59a40e7a.js133693434110137279 0
+54C:\Projects\Frontend_JS\Kursacz\dist\index.59a40e7a.js133693495600732963 0
 80C:\Projects\Frontend_JS\Kursacz\node_modules\caniuse-lite\data\features\woff2.js133689627584940395 0
 81C:\Projects\Frontend_JS\Kursacz\node_modules\@parcel\core\test\fixtures\glob-like133689627564390550 1
 114C:\Projects\Frontend_JS\Kursacz\node_modules\@parcel\optimizer-htmlnano\node_modules\csso\lib\restructure\index.js133689627566446980 0
@@ -38,7 +38,7 @@
 101C:\Projects\Frontend_JS\Kursacz\node_modules\@swc\helpers\_\_initializer_define_property\package.json133689627574847311 0
 57C:\Projects\Frontend_JS\Kursacz\node_modules\svgo\LICENSE133689627556307375 0
 73C:\Projects\Frontend_JS\Kursacz\node_modules\type-fest\source\except.d.ts133689627563520563 0
-53C:\Projects\Frontend_JS\Kursacz\src\js\declaration.js133693414155222260 0
+53C:\Projects\Frontend_JS\Kursacz\src\js\declaration.js133693464169425797 0
 98C:\Projects\Frontend_JS\Kursacz\node_modules\@parcel\optimizer-htmlnano\node_modules\css-tree\data133689627571573327 1
 72C:\Projects\Frontend_JS\Kursacz\node_modules\svgo\plugins\removeXMLNS.js133689627569798556 0
 66C:\Projects\Frontend_JS\Kursacz\node_modules\css-tree\package.json133689627575027512 0
@@ -66,7 +66,7 @@
 78C:\Projects\Frontend_JS\Kursacz\node_modules\lightningcss\node\targets.js.flow133689627562031402 0
 48C:\Projects\Frontend_JS\Kursacz\.prettierrc.json133674276902969050 0
 64C:\Projects\Frontend_JS\Kursacz\node_modules\anymatch\index.d.ts133689635802403672 0
-36C:\Projects\Frontend_JS\Kursacz\dist133693434110167270 1
+36C:\Projects\Frontend_JS\Kursacz\dist133693495600788420 1
 49C:\Projects\Frontend_JS\Kursacz\package-lock.json133689635805655182 0
 75C:\Projects\Frontend_JS\Kursacz\node_modules\semver\functions\prerelease.js133689627566264122 0
 115C:\Projects\Frontend_JS\Kursacz\node_modules\@parcel\optimizer-svgo\node_modules\css-tree\lib\syntax\scope\value.js133689627571361425 0
@@ -122,7 +122,7 @@
 100C:\Projects\Frontend_JS\Kursacz\node_modules\htmlnano\docs\versioned_docs\version-2.0.0\020-usage.md133689627568206279 0
 64C:\Projects\Frontend_JS\Kursacz\node_modules\csso\cjs\syntax.cjs133689627566264122 0
 76C:\Projects\Frontend_JS\Kursacz\node_modules\cosmiconfig\dist\types.d.ts.map133689627566610458 0
-50C:\Projects\Frontend_JS\Kursacz\src\js\handlers.js133693434109748653 0
+50C:\Projects\Frontend_JS\Kursacz\src\js\handlers.js133693495600304688 0
 64C:\Projects\Frontend_JS\Kursacz\node_modules\callsites\readme.md133689627559333078 0
 49C:\Projects\Frontend_JS\Kursacz\src\js\helpers.js133693411781993466 0
 53C:\Projects\Frontend_JS\Kursacz\node_modules\chokidar133689635802777573 1
@@ -2125,7 +2125,7 @@
 95C:\Projects\Frontend_JS\Kursacz\node_modules\csso\node_modules\css-tree\cjs\syntax\node\Nth.cjs133689627569375759 0
 77C:\Projects\Frontend_JS\Kursacz\node_modules\lmdb\node_modules\node-addon-api133689627564631217 1
 70C:\Projects\Frontend_JS\Kursacz\node_modules\is-binary-path\index.d.ts133689635802270358 0
-55C:\Projects\Frontend_JS\Kursacz\dist\index.fcb3f8e3.css133693395290407566 0
+55C:\Projects\Frontend_JS\Kursacz\dist\index.fcb3f8e3.css133693464320119450 0
 88C:\Projects\Frontend_JS\Kursacz\node_modules\lmdb\node_modules\node-addon-api\LICENSE.md133689627564525952 0
 90C:\Projects\Frontend_JS\Kursacz\node_modules\@swc\helpers\src\_class_private_field_set.mjs133689627577419058 0
 92C:\Projects\Frontend_JS\Kursacz\node_modules\@swc\helpers\_\_is_native_function\package.json133689627575057656 0
@@ -6006,6 +6006,6 @@
 54C:\Projects\Frontend_JS\Kursacz\dist\index.8f0c9192.js133689639178227530 0
 58C:\Projects\Frontend_JS\Kursacz\dist\index.8f0c9192.js.map133689639178237804 0
 56C:\Projects\Frontend_JS\Kursacz\dist\Kursacz.59712999.js133689639177665003 0
-47C:\Projects\Frontend_JS\Kursacz\dist\index.html133693395289729631 0
-59C:\Projects\Frontend_JS\Kursacz\dist\index.fcb3f8e3.css.map133693395290457756 0
-58C:\Projects\Frontend_JS\Kursacz\dist\index.59a40e7a.js.map133693434110157307 0
+59C:\Projects\Frontend_JS\Kursacz\dist\index.fcb3f8e3.css.map133693464320149466 0
+47C:\Projects\Frontend_JS\Kursacz\dist\index.html133693464320320046 0
+58C:\Projects\Frontend_JS\Kursacz\dist\index.59a40e7a.js.map133693495600778310 0
