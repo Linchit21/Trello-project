@@ -1,16 +1,16 @@
 import {
   counterTodoElement,
   formElement,
-  todoInProgressElement,
   inputDiscriptionTodoElement,
   inputTitleTodoElement,
   modalWindowElement,
   selectUserElement,
-  todoBlockElement,
   spaceTodoElement,
+  spaceProgressElement,
+  spaceDoneElement,
 } from './declaration.js';
 
-import {buildTemplateProgress, buildTemplateTodo, getActualTime} from './helpers.js';
+import {buildTemplateTodo, getActualTime} from './helpers.js';
 import {getTodos, setTodos} from './store.js';
 
 let isEdit = false;
@@ -19,6 +19,39 @@ let dataId;
 // Подтверждение TODO и отрисовка
 const handleMakeTodo = function () {
   const actualTodos = getTodos();
+
+  function addSelectListener(el) {
+    const todoElement = document.getElementById(el.id);
+    const selectStageElement = todoElement.querySelector('#select-todo');
+
+    selectStageElement.addEventListener('change', function () {
+      switch (selectStageElement.value) {
+        case 'Todo':
+          todoElement.remove();
+          counterTodoElement.textContent = actualTodos.length; //
+
+          buildTemplateTodo(el, spaceTodoElement);
+          addSelectListener(el);
+          break;
+        case 'In progress':
+          todoElement.remove();
+          counterTodoElement.textContent = actualTodos.length;
+
+          buildTemplateTodo(el, spaceProgressElement);
+          addSelectListener(el);
+          break;
+        case 'Done':
+          todoElement.remove();
+          counterTodoElement.textContent = actualTodos.length;
+
+          buildTemplateTodo(el, spaceDoneElement);
+          addSelectListener(el);
+          break;
+        default:
+          console.log('Sorry');
+      }
+    });
+  }
 
   if (!isEdit) {
     if (inputTitleTodoElement.value !== '' || inputDiscriptionTodoElement.value !== '') {
@@ -35,19 +68,25 @@ const handleMakeTodo = function () {
         this.userIndex = userName;
       }
 
-      actualTodos.push(new Todo());
+      const todo = new Todo();
+
+      actualTodos.push(todo);
       modalWindowElement.classList.toggle('window-hide');
 
-      spaceTodoElement.insertAdjacentHTML(
-        'beforeend',
-        buildTemplateTodo(
-          newId,
-          inputDiscriptionTodoElement.value,
-          inputTitleTodoElement.value,
-          time,
-          userName
-        )
-      );
+      // spaceTodoElement.insertAdjacentHTML(
+      //   'beforeend',
+      //   buildTemplateTodo(
+      //     newId,
+      //     inputDiscriptionTodoElement.value,
+      //     inputTitleTodoElement.value,
+      //     time,
+      //     userName
+      //   )
+      // );
+
+      buildTemplateTodo(todo, spaceTodoElement);
+      addSelectListener(todo);
+
       counterTodoElement.textContent = actualTodos.length;
       setTodos(actualTodos);
       formElement.reset();
@@ -69,11 +108,8 @@ const handleMakeTodo = function () {
     spaceTodoElement.innerHTML = ''; // Очистка колонки
 
     actualTodos.forEach(el => {
-      // Ререндер
-      spaceTodoElement.insertAdjacentHTML(
-        'beforeend',
-        buildTemplateTodo(el.id, el.text, el.title, el.createdAt, el.userIndex)
-      );
+      buildTemplateTodo(el, spaceTodoElement);
+      addSelectListener(el);
     });
 
     modalWindowElement.classList.toggle('window-hide');
@@ -112,23 +148,22 @@ const handleChangingTodoTask = function () {
     counterTodoElement.textContent = actualTodos.length;
   }
 
-  if (buttonEnterElement) {
-    // Подтверждение карточки и перенос в следующий блок
-
-    buttonEnterElement.closest('.todo-work').remove();
-    counterTodoElement.textContent = actualTodos.length;
-
-    todoInProgressElement.insertAdjacentHTML(
-      'beforeend',
-      buildTemplateProgress(
-        actualTodos[todoIndex].id,
-        actualTodos[todoIndex].text,
-        actualTodos[todoIndex].title,
-        actualTodos[todoIndex].createdAt,
-        actualTodos[todoIndex].userIndex
-      )
-    );
-  }
+  // if (selectStageElement) {
+  // Подтверждение карточки и перенос в следующий блок
+  //   buttonEnterElement.closest('.todo-work').remove();
+  //   counterTodoElement.textContent = actualTodos.length;
+  //   spaceProgressElement.insertAdjacentHTML(
+  //     'beforeend',
+  //     buildTemplateTodo(
+  //       actualTodos[todoIndex].id,
+  //       actualTodos[todoIndex].text,
+  //       actualTodos[todoIndex].title,
+  //       actualTodos[todoIndex].createdAt,
+  //       actualTodos[todoIndex].userIndex
+  //     )
+  //   );
+  // }
+  // }
 };
 
 export {handleChangingTodoTask, handleMakeTodo};

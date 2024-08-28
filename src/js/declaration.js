@@ -9,7 +9,9 @@ const todoInProgressElement = document.querySelector('#in-progress');
 const selectUserElement = document.querySelector('#users');
 const formElement = document.querySelector('.modals');
 const counterTodoElement = document.querySelector('.todo-header__number');
-const spaceTodoElement = document.querySelector('#workspace');
+const spaceTodoElement = document.querySelector('#workspace-task');
+const spaceProgressElement = document.querySelector('#workspace-progress');
+const spaceDoneElement = document.querySelector('#workspace-done');
 
 export {
   buttonAddTodoElement,
@@ -24,4 +26,6 @@ export {
   formElement,
   counterTodoElement,
   spaceTodoElement,
+  spaceProgressElement,
+  spaceDoneElement,
 };

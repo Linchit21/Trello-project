@@ -597,8 +597,10 @@ var _handlersJs = require("./handlers.js");
 });
 // Подтверждение и рендеринг TODO, кнопка confirm
 (0, _declarationJs.buttonConfirmTodoElement).addEventListener("click", (0, _handlersJs.handleMakeTodo));
-// Делегирование на блок TODO Task, кнопки: Edit, Delete, Enter
+// Делегирование на блок TODO Task, кнопки: Edit, Delete, Select
 (0, _declarationJs.todoBlockElement).addEventListener("click", (0, _handlersJs.handleChangingTodoTask));
+// Делегирование на блок In progress, кнопки: Edit, Delete, Select
+(0, _declarationJs.todoInProgressElement).addEventListener("click", (0, _handlersJs.handleChangingTodoTask));
 
 },{"./handlers.js":"jlk9X","./declaration.js":"3LNmn"}],"jlk9X":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -613,6 +615,34 @@ let dataId;
 // Подтверждение TODO и отрисовка
 const handleMakeTodo = function() {
     const actualTodos = (0, _storeJs.getTodos)();
+    function addSelectListener(el) {
+        const todoElement = document.getElementById(el.id);
+        const selectStageElement = todoElement.querySelector("#select-todo");
+        selectStageElement.addEventListener("change", function() {
+            switch(selectStageElement.value){
+                case "Todo":
+                    todoElement.remove();
+                    (0, _declarationJs.counterTodoElement).textContent = actualTodos.length; //
+                    (0, _helpersJs.buildTemplateTodo)(el, (0, _declarationJs.spaceTodoElement));
+                    addSelectListener(el);
+                    break;
+                case "In progress":
+                    todoElement.remove();
+                    (0, _declarationJs.counterTodoElement).textContent = actualTodos.length;
+                    (0, _helpersJs.buildTemplateTodo)(el, (0, _declarationJs.spaceProgressElement));
+                    addSelectListener(el);
+                    break;
+                case "Done":
+                    todoElement.remove();
+                    (0, _declarationJs.counterTodoElement).textContent = actualTodos.length;
+                    (0, _helpersJs.buildTemplateTodo)(el, (0, _declarationJs.spaceDoneElement));
+                    addSelectListener(el);
+                    break;
+                default:
+                    console.log("Sorry");
+            }
+        });
+    }
     if (!isEdit) {
         if ((0, _declarationJs.inputTitleTodoElement).value !== "" || (0, _declarationJs.inputDiscriptionTodoElement).value !== "") {
             // починить сравнение !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -626,9 +656,21 @@ const handleMakeTodo = function() {
                 this.createdAt = time;
                 this.userIndex = userName;
             }
-            actualTodos.push(new Todo());
+            const todo = new Todo();
+            actualTodos.push(todo);
             (0, _declarationJs.modalWindowElement).classList.toggle("window-hide");
-            (0, _declarationJs.spaceTodoElement).insertAdjacentHTML("beforeend", (0, _helpersJs.buildTemplateTodo)(newId, (0, _declarationJs.inputDiscriptionTodoElement).value, (0, _declarationJs.inputTitleTodoElement).value, time, userName));
+            // spaceTodoElement.insertAdjacentHTML(
+            //   'beforeend',
+            //   buildTemplateTodo(
+            //     newId,
+            //     inputDiscriptionTodoElement.value,
+            //     inputTitleTodoElement.value,
+            //     time,
+            //     userName
+            //   )
+            // );
+            (0, _helpersJs.buildTemplateTodo)(todo, (0, _declarationJs.spaceTodoElement));
+            addSelectListener(todo);
             (0, _declarationJs.counterTodoElement).textContent = actualTodos.length;
             (0, _storeJs.setTodos)(actualTodos);
             (0, _declarationJs.formElement).reset();
@@ -647,8 +689,8 @@ const handleMakeTodo = function() {
         actualTodos.splice(dataId, 1, new Todo());
         (0, _declarationJs.spaceTodoElement).innerHTML = ""; // Очистка колонки
         actualTodos.forEach((el)=>{
-            // Ререндер
-            (0, _declarationJs.spaceTodoElement).insertAdjacentHTML("beforeend", (0, _helpersJs.buildTemplateTodo)(el.id, el.text, el.title, el.createdAt, el.userIndex));
+            (0, _helpersJs.buildTemplateTodo)(el, (0, _declarationJs.spaceTodoElement));
+            addSelectListener(el);
         });
         (0, _declarationJs.modalWindowElement).classList.toggle("window-hide");
         (0, _declarationJs.counterTodoElement).textContent = actualTodos.length;
@@ -679,12 +721,22 @@ const handleChangingTodoTask = function() {
         actualTodos.splice(todoIndex, 1);
         (0, _declarationJs.counterTodoElement).textContent = actualTodos.length;
     }
-    if (buttonEnterElement) {
-        // Подтверждение карточки и перенос в следующий блок
-        buttonEnterElement.closest(".todo-work").remove();
-        (0, _declarationJs.counterTodoElement).textContent = actualTodos.length;
-        (0, _declarationJs.todoInProgressElement).insertAdjacentHTML("beforeend", (0, _helpersJs.buildTemplateProgress)(actualTodos[todoIndex].id, actualTodos[todoIndex].text, actualTodos[todoIndex].title, actualTodos[todoIndex].createdAt, actualTodos[todoIndex].userIndex));
-    }
+// if (selectStageElement) {
+// Подтверждение карточки и перенос в следующий блок
+//   buttonEnterElement.closest('.todo-work').remove();
+//   counterTodoElement.textContent = actualTodos.length;
+//   spaceProgressElement.insertAdjacentHTML(
+//     'beforeend',
+//     buildTemplateTodo(
+//       actualTodos[todoIndex].id,
+//       actualTodos[todoIndex].text,
+//       actualTodos[todoIndex].title,
+//       actualTodos[todoIndex].createdAt,
+//       actualTodos[todoIndex].userIndex
+//     )
+//   );
+// }
+// }
 };
 
 },{"./declaration.js":"3LNmn","./helpers.js":"hGI1E","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./store.js":"9NZPX"}],"3LNmn":[function(require,module,exports) {
@@ -702,6 +754,8 @@ parcelHelpers.export(exports, "selectUserElement", ()=>selectUserElement);
 parcelHelpers.export(exports, "formElement", ()=>formElement);
 parcelHelpers.export(exports, "counterTodoElement", ()=>counterTodoElement);
 parcelHelpers.export(exports, "spaceTodoElement", ()=>spaceTodoElement);
+parcelHelpers.export(exports, "spaceProgressElement", ()=>spaceProgressElement);
+parcelHelpers.export(exports, "spaceDoneElement", ()=>spaceDoneElement);
 const buttonAddTodoElement = document.querySelector("#add-todo");
 const modalWindowElement = document.querySelector("#window");
 const buttonConfirmTodoElement = document.querySelector("#add-confirm");
@@ -713,7 +767,9 @@ const todoInProgressElement = document.querySelector("#in-progress");
 const selectUserElement = document.querySelector("#users");
 const formElement = document.querySelector(".modals");
 const counterTodoElement = document.querySelector(".todo-header__number");
-const spaceTodoElement = document.querySelector("#workspace");
+const spaceTodoElement = document.querySelector("#workspace-task");
+const spaceProgressElement = document.querySelector("#workspace-progress");
+const spaceDoneElement = document.querySelector("#workspace-done");
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
 exports.interopDefault = function(a) {
@@ -748,70 +804,36 @@ exports.export = function(dest, destName, get) {
 },{}],"hGI1E":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "buildTemplateProgress", ()=>buildTemplateProgress);
 parcelHelpers.export(exports, "buildTemplateTodo", ()=>buildTemplateTodo);
 parcelHelpers.export(exports, "getActualTime", ()=>getActualTime);
 var _declarationJs = require("./declaration.js");
 function getActualTime() {
     const date = new Date(); // Data
-    const createdAt = `${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate()}  ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+    const createdAt = `${date.getHours()}:${date.getMinutes()}
+  ${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate()}  `;
     return createdAt;
 }
-const buildTemplateTodo = (id, text, title, time, userName)=>{
-    return `
-        <div class="todo-work todo-work_success" id="${id}">
-            <div class="todo-work__title">
-                <p class="todo-work__text">${title}</p>
-                <button type="button" class="btn btn-primary todo-work__button_edit btn-sm">
-                  EDIT
-                </button>
-                <button type="button" class="btn btn-primary todo-work__button_delete btn-sm">
-                  DELETE
-                </button>
-              </div>
-              <div class="todo-work__discription">
-                <p>${text}</p>
-                <button
-                  type="button"
-                  class="btn btn-primary btn-sm todo-work__button_enter"
-                >
-                  =>
-                </button>
-              </div>
-              <div class="todo-work__user">
-                <p>${(0, _declarationJs.selectUserElement).options[userName].value}</p>
-                <p>${time}</p>
-            </div>
+const buildTemplateTodo = (todo, columnElement)=>{
+    const { id, text, title, createdAt, userIndex } = todo;
+    columnElement.insertAdjacentHTML("beforeend", `<div class="todo-work" id="${id}">
+        <p class="todo-work__title">Title: ${title}</p>
+        <p class="todo-work__discription">Discription: ${text}</p>
+        <p>${(0, _declarationJs.selectUserElement).options[userIndex].value}</p>
+        <p>${createdAt}</p>
+        <div class="todo-work__buttons">
+          <button type="button" class="btn btn-primary todo-work__button_edit btn-sm">EDIT</button>
+          <button type="button" class="btn btn-primary btn-sm todo-work__button_enter">
+            <select name="" id="select-todo">
+              <option value="Todo">Todo</option>
+              <option value="In progress">In progress</option>
+              <option value="Done">Done</option>
+            </select>
+          </button>
+          <button type="button" class="btn btn-primary todo-work__button_delete btn-sm">
+            DELETE
+          </button>
         </div>
-      `;
-};
-const buildTemplateProgress = (id, text, title, time, userName)=>{
-    return `
-<div class="todo-work todo-work_success" id="${id}">
-    <div class="todo-work__title">
-        <p class="todo-work__text">${title}</p>
-        <button type="button" class="btn btn-primary todo-work__button_back btn-sm">
-            BACK
-        </button>
-        <button type="button" class="btn btn-primary todo-work__button_complete btn-sm">
-            COMPLETE
-        </button>
-    </div>
-    <div class="todo-work__discription">
-        <p>${text}</p>
-        <button
-            type="button"
-            class="btn btn-primary todo-work__button_delete btn-sm todo-work__button_enter"
-            >
-            =>
-        </button>
-    </div>
-    <div class="todo-work__user">
-        <p>${(0, _declarationJs.selectUserElement).options[userName].value}</p>
-        <p>${time}</p>
-    </div>
-</div>
-        `;
+    </div>`);
 };
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./declaration.js":"3LNmn"}],"9NZPX":[function(require,module,exports) {
@@ -819,14 +841,14 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "getTodos", ()=>getTodos);
 parcelHelpers.export(exports, "setTodos", ()=>setTodos);
-let user = [];
+let todos = [];
 function getTodos() {
     // Возвращаем акутальный массив
-    return user;
+    return todos;
 }
 function setTodos(value) {
     // Обновление массива и запись в localStorage
-    user = value;
+    todos = value;
 //   localStorage.setItem(todosKey, JSON.stringify(todos));
 }
 

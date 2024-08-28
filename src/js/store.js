@@ -1,13 +1,13 @@
-let user = [];
+let todos = [];
 
 function getTodos() {
   // Возвращаем акутальный массив
-  return user;
+  return todos;
 }
 
 function setTodos(value) {
   // Обновление массива и запись в localStorage
-  user = value;
+  todos = value;
   //   localStorage.setItem(todosKey, JSON.stringify(todos));
 }
 

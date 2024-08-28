@@ -5,6 +5,7 @@ import {
   formElement,
   modalWindowElement,
   todoBlockElement,
+  todoInProgressElement,
 } from './declaration.js';
 import {handleChangingTodoTask, handleMakeTodo} from './handlers.js';
 
@@ -22,5 +23,8 @@ buttonCancelTodoElement.addEventListener('click', function () {
 // Подтверждение и рендеринг TODO, кнопка confirm
 buttonConfirmTodoElement.addEventListener('click', handleMakeTodo);
 
-// Делегирование на блок TODO Task, кнопки: Edit, Delete, Enter
+// Делегирование на блок TODO Task, кнопки: Edit, Delete, Select
 todoBlockElement.addEventListener('click', handleChangingTodoTask);
+
+// Делегирование на блок In progress, кнопки: Edit, Delete, Select
+todoInProgressElement.addEventListener('click', handleChangingTodoTask);
