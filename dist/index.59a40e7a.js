@@ -588,7 +588,8 @@ var _declarationJs = require("./declaration.js");
 var _handlersJs = require("./handlers.js");
 // Модальное окно вкл и выкл, кнопка add
 (0, _declarationJs.buttonAddTodoElement).addEventListener("click", function() {
-    (0, _declarationJs.modalWindowElement).classList.toggle("window-hide");
+    if ((0, _declarationJs.counterInProgressElement).textContent != 2) (0, _declarationJs.modalWindowElement).classList.toggle("window-hide");
+    else alert("\u041F\u0440\u0435\u0432\u044B\u0448\u0435\u043D\u043D\u043E \u043C\u0430\u043A\u0441\u0438\u043C\u0430\u043B\u044C\u043D\u043E\u0435 \u043A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E \u0434\u0435\u043B!!!!!!");
 });
 // Спрятать модальное окно и сделать ресет формы, кнопка cancel в модалке
 (0, _declarationJs.buttonCancelTodoElement).addEventListener("click", function() {
@@ -630,7 +631,6 @@ var _helpersJs = require("./helpers.js");
 var _storeJs = require("./store.js");
 let isEdit = false;
 let todoEditId;
-let countTodoInprogress = 0;
 // Поиск нужного индекса в массиве
 function findTodo(id) {
     const actualTodos = (0, _storeJs.getTodos)();
@@ -878,6 +878,7 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "buildTemplateTodo", ()=>buildTemplateTodo);
 parcelHelpers.export(exports, "getActualTime", ()=>getActualTime);
 parcelHelpers.export(exports, "actualCounter", ()=>actualCounter);
+parcelHelpers.export(exports, "actualInProgressTodo", ()=>actualInProgressTodo);
 var _declarationJs = require("./declaration.js");
 var _storeJs = require("./store.js");
 function getActualTime() {

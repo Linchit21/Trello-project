@@ -3,6 +3,7 @@ import {
   buttonCancelTodoElement,
   buttonConfirmTodoElement,
   buttonDeleteAllElement,
+  counterInProgressElement,
   formElement,
   modalWindowElement,
   todoBlockElement,
@@ -13,7 +14,11 @@ import {handleChangingTodoTask, handleDeleteAllTasks, handleMakeTodo} from './ha
 
 // Модальное окно вкл и выкл, кнопка add
 buttonAddTodoElement.addEventListener('click', function () {
-  modalWindowElement.classList.toggle('window-hide');
+  if (counterInProgressElement.textContent != 2) {
+    modalWindowElement.classList.toggle('window-hide');
+  } else {
+    alert('Превышенно максимальное количество дел!!!!!!');
+  }
 });
 
 // Спрятать модальное окно и сделать ресет формы, кнопка cancel в модалке

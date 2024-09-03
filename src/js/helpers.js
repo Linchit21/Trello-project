@@ -63,4 +63,4 @@ const buildTemplateTodo = (todo, columnElement) => {
   );
 };
 
-export {buildTemplateTodo, getActualTime, actualCounter};
+export {buildTemplateTodo, getActualTime, actualCounter, actualInProgressTodo};

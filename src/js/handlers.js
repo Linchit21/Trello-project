@@ -8,6 +8,7 @@ import {
   spaceTodoElement,
   spaceProgressElement,
   spaceDoneElement,
+  counterInProgressElement,
 } from './declaration.js';
 
 import {actualCounter, buildTemplateTodo, getActualTime} from './helpers.js';
@@ -15,7 +16,6 @@ import {getTodos, setTodos} from './store.js';
 
 let isEdit = false;
 let todoEditId;
-let countTodoInprogress = 0;
 
 // Поиск нужного индекса в массиве
 function findTodo(id) {
