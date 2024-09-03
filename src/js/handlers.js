@@ -16,12 +16,14 @@ import {getTodos, setTodos} from './store.js';
 let isEdit = false;
 let todoEditId;
 
+// Поиск нужного индекса в массиве
 function findTodo(id) {
   const actualTodos = getTodos();
   const indexTodo = actualTodos.findIndex(el => el.id == id);
   return actualTodos[indexTodo];
 }
 
+// Поиск нужного индекса в массиве, изменение и сохранение
 function editTodo(id, newValue) {
   const actualTodos = getTodos();
   const indexTodo = actualTodos.findIndex(el => el.id == id);
@@ -29,6 +31,7 @@ function editTodo(id, newValue) {
   setTodos(actualTodos);
 }
 
+// Поиск нужного индекса в массиве, удаление из массива и сохранение
 function deleteTodo(id) {
   const actualTodos = getTodos();
   const indexTodo = actualTodos.findIndex(el => el.id == id);
@@ -49,7 +52,7 @@ const handleMakeTodo = function () {
       switch (selectStageElement.value) {
         case 'Todo':
           todoElement.remove();
-          counterTodoElement.textContent = actualTodos.length; //
+          // counterTodoElement.textContent = actualTodos.length; //
 
           editTodo(el.id, {column: 'Todo'});
           buildTemplateTodo(el, spaceTodoElement);
@@ -57,7 +60,7 @@ const handleMakeTodo = function () {
           break;
         case 'In progress':
           todoElement.remove();
-          counterTodoElement.textContent = actualTodos.length;
+          // counterTodoElement.textContent = actualTodos.length;
 
           editTodo(el.id, {column: 'In progress'});
           buildTemplateTodo(el, spaceProgressElement);
@@ -66,7 +69,7 @@ const handleMakeTodo = function () {
           break;
         case 'Done':
           todoElement.remove();
-          counterTodoElement.textContent = actualTodos.length;
+          // counterTodoElement.textContent = actualTodos.length;
 
           editTodo(el.id, {column: 'Done'});
           buildTemplateTodo(el, spaceDoneElement);
@@ -101,12 +104,14 @@ const handleMakeTodo = function () {
       buildTemplateTodo(todo, spaceTodoElement);
       addSelectListener(todo);
 
-      counterTodoElement.textContent = actualTodos.length;
+      // counterTodoElement.textContent = actualTodos.length;
       setTodos(actualTodos);
       formElement.reset();
       console.log(actualTodos);
     }
-  } else {
+  } else if (findTodo(todoEditId).column == 'Todo') {
+    console.log('Todo');
+
     editTodo(todoEditId, {
       text: inputDiscriptionTodoElement.value,
       title: inputTitleTodoElement.value,
@@ -116,13 +121,61 @@ const handleMakeTodo = function () {
     spaceTodoElement.innerHTML = ''; // Очистка колонки
 
     actualTodos.forEach(el => {
-      buildTemplateTodo(el, spaceTodoElement);
-      addSelectListener(el);
+      if (el.column == 'Todo') {
+        buildTemplateTodo(el, spaceTodoElement);
+        addSelectListener(el);
+      }
     });
 
     modalWindowElement.classList.toggle('window-hide');
 
-    counterTodoElement.textContent = actualTodos.length;
+    // counterTodoElement.textContent = actualTodos.length;
+    formElement.reset();
+    isEdit = false;
+  } else if (findTodo(todoEditId).column == 'In progress') {
+    console.log('In progress');
+
+    editTodo(todoEditId, {
+      text: inputDiscriptionTodoElement.value,
+      title: inputTitleTodoElement.value,
+      userIndex: selectUserElement.selectedIndex,
+    });
+
+    spaceProgressElement.innerHTML = ''; // Очистка колонки
+
+    actualTodos.forEach(el => {
+      if (el.column == 'In progress') {
+        buildTemplateTodo(el, spaceProgressElement);
+        addSelectListener(el, 'In progress');
+      }
+    });
+
+    modalWindowElement.classList.toggle('window-hide');
+
+    // counterTodoElement.textContent = actualTodos.length;
+    formElement.reset();
+    isEdit = false;
+  } else if (findTodo(todoEditId).column == 'Done') {
+    console.log('Done');
+
+    editTodo(todoEditId, {
+      text: inputDiscriptionTodoElement.value,
+      title: inputTitleTodoElement.value,
+      userIndex: selectUserElement.selectedIndex,
+    });
+
+    spaceDoneElement.innerHTML = ''; // Очистка колонки
+
+    actualTodos.forEach(el => {
+      if (el.column == 'Done') {
+        buildTemplateTodo(el, spaceDoneElement);
+        addSelectListener(el, 'Done');
+      }
+    });
+
+    modalWindowElement.classList.toggle('window-hide');
+
+    // counterTodoElement.textContent = actualTodos.length;
     formElement.reset();
     isEdit = false;
   }

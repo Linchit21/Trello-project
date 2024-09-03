@@ -6,6 +6,7 @@ const inputTitleTodoElement = document.querySelector('#todo-title');
 const inputDiscriptionTodoElement = document.querySelector('#todo-discription');
 const todoBlockElement = document.querySelector('#task');
 const todoInProgressElement = document.querySelector('#in-progress');
+const todoDoneElement = document.querySelector('#done');
 const selectUserElement = document.querySelector('#users');
 const formElement = document.querySelector('.modals');
 const counterTodoElement = document.querySelector('.todo-header__number');
@@ -28,4 +29,5 @@ export {
   spaceTodoElement,
   spaceProgressElement,
   spaceDoneElement,
+  todoDoneElement,
 };

@@ -5,6 +5,7 @@ import {
   formElement,
   modalWindowElement,
   todoBlockElement,
+  todoDoneElement,
   todoInProgressElement,
 } from './declaration.js';
 import {handleChangingTodoTask, handleMakeTodo} from './handlers.js';
@@ -28,3 +29,6 @@ todoBlockElement.addEventListener('click', handleChangingTodoTask);
 
 // Делегирование на блок In progress, кнопки: Edit, Delete, Select
 todoInProgressElement.addEventListener('click', handleChangingTodoTask);
+
+// Делегирование на блок In progress, кнопки: Edit, Delete, Select
+todoDoneElement.addEventListener('click', handleChangingTodoTask);

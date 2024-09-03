@@ -601,6 +601,8 @@ var _handlersJs = require("./handlers.js");
 (0, _declarationJs.todoBlockElement).addEventListener("click", (0, _handlersJs.handleChangingTodoTask));
 // Делегирование на блок In progress, кнопки: Edit, Delete, Select
 (0, _declarationJs.todoInProgressElement).addEventListener("click", (0, _handlersJs.handleChangingTodoTask));
+// Делегирование на блок In progress, кнопки: Edit, Delete, Select
+(0, _declarationJs.todoDoneElement).addEventListener("click", (0, _handlersJs.handleChangingTodoTask));
 
 },{"./handlers.js":"jlk9X","./declaration.js":"3LNmn"}],"jlk9X":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -612,11 +614,13 @@ var _helpersJs = require("./helpers.js");
 var _storeJs = require("./store.js");
 let isEdit = false;
 let todoEditId;
+// Поиск нужного индекса в массиве
 function findTodo(id) {
     const actualTodos = (0, _storeJs.getTodos)();
     const indexTodo = actualTodos.findIndex((el)=>el.id == id);
     return actualTodos[indexTodo];
 }
+// Поиск нужного индекса в массиве, изменение и сохранение
 function editTodo(id, newValue) {
     const actualTodos = (0, _storeJs.getTodos)();
     const indexTodo = actualTodos.findIndex((el)=>el.id == id);
@@ -626,6 +630,7 @@ function editTodo(id, newValue) {
     };
     (0, _storeJs.setTodos)(actualTodos);
 }
+// Поиск нужного индекса в массиве, удаление из массива и сохранение
 function deleteTodo(id) {
     const actualTodos = (0, _storeJs.getTodos)();
     const indexTodo = actualTodos.findIndex((el)=>el.id == id);
@@ -643,7 +648,7 @@ const handleMakeTodo = function() {
             switch(selectStageElement.value){
                 case "Todo":
                     todoElement.remove();
-                    (0, _declarationJs.counterTodoElement).textContent = actualTodos.length; //
+                    // counterTodoElement.textContent = actualTodos.length; //
                     editTodo(el.id, {
                         column: "Todo"
                     });
@@ -652,7 +657,7 @@ const handleMakeTodo = function() {
                     break;
                 case "In progress":
                     todoElement.remove();
-                    (0, _declarationJs.counterTodoElement).textContent = actualTodos.length;
+                    // counterTodoElement.textContent = actualTodos.length;
                     editTodo(el.id, {
                         column: "In progress"
                     });
@@ -662,7 +667,7 @@ const handleMakeTodo = function() {
                     break;
                 case "Done":
                     todoElement.remove();
-                    (0, _declarationJs.counterTodoElement).textContent = actualTodos.length;
+                    // counterTodoElement.textContent = actualTodos.length;
                     editTodo(el.id, {
                         column: "Done"
                     });
@@ -692,12 +697,13 @@ const handleMakeTodo = function() {
             (0, _declarationJs.modalWindowElement).classList.toggle("window-hide");
             (0, _helpersJs.buildTemplateTodo)(todo, (0, _declarationJs.spaceTodoElement));
             addSelectListener(todo);
-            (0, _declarationJs.counterTodoElement).textContent = actualTodos.length;
+            // counterTodoElement.textContent = actualTodos.length;
             (0, _storeJs.setTodos)(actualTodos);
             (0, _declarationJs.formElement).reset();
             console.log(actualTodos);
         }
-    } else {
+    } else if (findTodo(todoEditId).column == "Todo") {
+        console.log("Todo");
         editTodo(todoEditId, {
             text: (0, _declarationJs.inputDiscriptionTodoElement).value,
             title: (0, _declarationJs.inputTitleTodoElement).value,
@@ -705,11 +711,49 @@ const handleMakeTodo = function() {
         });
         (0, _declarationJs.spaceTodoElement).innerHTML = ""; // Очистка колонки
         actualTodos.forEach((el)=>{
-            (0, _helpersJs.buildTemplateTodo)(el, (0, _declarationJs.spaceTodoElement));
-            addSelectListener(el);
+            if (el.column == "Todo") {
+                (0, _helpersJs.buildTemplateTodo)(el, (0, _declarationJs.spaceTodoElement));
+                addSelectListener(el);
+            }
         });
         (0, _declarationJs.modalWindowElement).classList.toggle("window-hide");
-        (0, _declarationJs.counterTodoElement).textContent = actualTodos.length;
+        // counterTodoElement.textContent = actualTodos.length;
+        (0, _declarationJs.formElement).reset();
+        isEdit = false;
+    } else if (findTodo(todoEditId).column == "In progress") {
+        console.log("In progress");
+        editTodo(todoEditId, {
+            text: (0, _declarationJs.inputDiscriptionTodoElement).value,
+            title: (0, _declarationJs.inputTitleTodoElement).value,
+            userIndex: (0, _declarationJs.selectUserElement).selectedIndex
+        });
+        (0, _declarationJs.spaceProgressElement).innerHTML = ""; // Очистка колонки
+        actualTodos.forEach((el)=>{
+            if (el.column == "In progress") {
+                (0, _helpersJs.buildTemplateTodo)(el, (0, _declarationJs.spaceProgressElement));
+                addSelectListener(el, "In progress");
+            }
+        });
+        (0, _declarationJs.modalWindowElement).classList.toggle("window-hide");
+        // counterTodoElement.textContent = actualTodos.length;
+        (0, _declarationJs.formElement).reset();
+        isEdit = false;
+    } else if (findTodo(todoEditId).column == "Done") {
+        console.log("Done");
+        editTodo(todoEditId, {
+            text: (0, _declarationJs.inputDiscriptionTodoElement).value,
+            title: (0, _declarationJs.inputTitleTodoElement).value,
+            userIndex: (0, _declarationJs.selectUserElement).selectedIndex
+        });
+        (0, _declarationJs.spaceDoneElement).innerHTML = ""; // Очистка колонки
+        actualTodos.forEach((el)=>{
+            if (el.column == "Done") {
+                (0, _helpersJs.buildTemplateTodo)(el, (0, _declarationJs.spaceDoneElement));
+                addSelectListener(el, "Done");
+            }
+        });
+        (0, _declarationJs.modalWindowElement).classList.toggle("window-hide");
+        // counterTodoElement.textContent = actualTodos.length;
         (0, _declarationJs.formElement).reset();
         isEdit = false;
     }
@@ -753,6 +797,7 @@ parcelHelpers.export(exports, "counterTodoElement", ()=>counterTodoElement);
 parcelHelpers.export(exports, "spaceTodoElement", ()=>spaceTodoElement);
 parcelHelpers.export(exports, "spaceProgressElement", ()=>spaceProgressElement);
 parcelHelpers.export(exports, "spaceDoneElement", ()=>spaceDoneElement);
+parcelHelpers.export(exports, "todoDoneElement", ()=>todoDoneElement);
 const buttonAddTodoElement = document.querySelector("#add-todo");
 const modalWindowElement = document.querySelector("#window");
 const buttonConfirmTodoElement = document.querySelector("#add-confirm");
@@ -761,6 +806,7 @@ const inputTitleTodoElement = document.querySelector("#todo-title");
 const inputDiscriptionTodoElement = document.querySelector("#todo-discription");
 const todoBlockElement = document.querySelector("#task");
 const todoInProgressElement = document.querySelector("#in-progress");
+const todoDoneElement = document.querySelector("#done");
 const selectUserElement = document.querySelector("#users");
 const formElement = document.querySelector(".modals");
 const counterTodoElement = document.querySelector(".todo-header__number");
