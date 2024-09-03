@@ -25,12 +25,24 @@
   font-size: 40px;
 }
 
-.container__timer {
-  background-color: #f0f8ff;
-  border: 2px solid #000;
-  border-radius: 50px;
-  padding: 10px;
-  font-size: 20px;
+.container__clock {
+  text-align: center;
+  color: #fff;
+  font-family: Verdana, Arial, sans-serif;
+  font-size: 60px;
+}
+
+.container__clock ul {
+  margin: 0 auto;
+  list-style: none;
+}
+
+.container__clock ul li {
+  display: inline;
+}
+
+.container__clock ul li#separator {
+  animation: 1s infinite myfade;
 }
 
 .todo-blocks {
@@ -139,5 +151,19 @@
 
 .window-hide {
   display: none;
+}
+
+@keyframes myfade {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }
 /*# sourceMappingURL=index.fcb3f8e3.css.map */

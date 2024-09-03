@@ -2,13 +2,14 @@ import {
   buttonAddTodoElement,
   buttonCancelTodoElement,
   buttonConfirmTodoElement,
+  buttonDeleteAllElement,
   formElement,
   modalWindowElement,
   todoBlockElement,
   todoDoneElement,
   todoInProgressElement,
 } from './declaration.js';
-import {handleChangingTodoTask, handleMakeTodo} from './handlers.js';
+import {handleChangingTodoTask, handleDeleteAllTasks, handleMakeTodo} from './handlers.js';
 
 // Модальное окно вкл и выкл, кнопка add
 buttonAddTodoElement.addEventListener('click', function () {
@@ -32,3 +33,22 @@ todoInProgressElement.addEventListener('click', handleChangingTodoTask);
 
 // Делегирование на блок In progress, кнопки: Edit, Delete, Select
 todoDoneElement.addEventListener('click', handleChangingTodoTask);
+
+// Delete all
+buttonDeleteAllElement.addEventListener('click', handleDeleteAllTasks);
+
+window.onload = function () {
+  setInterval(function () {
+    // Seconds
+    var seconds = new Date().getSeconds();
+    document.getElementById('seconds').innerHTML = (seconds < 10 ? '0' : '') + seconds;
+
+    // Minutes
+    var minutes = new Date().getMinutes();
+    document.getElementById('minutes').innerHTML = (minutes < 10 ? '0' : '') + minutes;
+
+    // Hours
+    var hours = new Date().getHours();
+    document.getElementById('hours').innerHTML = (hours < 10 ? '0' : '') + hours;
+  }, 1000);
+};

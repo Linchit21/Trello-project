@@ -24,12 +24,25 @@
     font-size: 40px;
   }
 
-  &__timer {
-    background-color: aliceblue;
-    border-radius: 50px;
-    border: 2px solid black;
-    padding: 10px;
-    font-size: 20px;
+  &__clock {
+    font-size: 60px;
+    font-family: Verdana, Arial, Sans-serif;
+    text-align: center;
+    color: #fff;
+
+    & ul {
+      margin: 0 auto;
+      list-style: none;
+    }
+
+    & ul li {
+      display: inline;
+    }
+
+    & ul li#separator {
+      animation: myfade 1s ease infinite;
+      animation: myfade 1s ease infinite;
+    }
   }
 }
 
@@ -147,4 +160,29 @@
 
 .window-hide {
   display: none;
+}
+
+/* Animation Clock*/
+@keyframes myfade {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes myfade {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }

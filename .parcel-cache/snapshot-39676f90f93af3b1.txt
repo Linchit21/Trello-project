@@ -12,7 +12,7 @@
 101C:\Projects\Frontend_JS\Kursacz\node_modules\@swc\helpers\_\_initializer_define_property\package.json133689627574847311 0
 57C:\Projects\Frontend_JS\Kursacz\node_modules\svgo\LICENSE133689627556307375 0
 73C:\Projects\Frontend_JS\Kursacz\node_modules\type-fest\source\except.d.ts133689627563520563 0
-53C:\Projects\Frontend_JS\Kursacz\src\js\declaration.js133698348181282270 0
+53C:\Projects\Frontend_JS\Kursacz\src\js\declaration.js133698587936096681 0
 98C:\Projects\Frontend_JS\Kursacz\node_modules\@parcel\optimizer-htmlnano\node_modules\css-tree\data133689627571573327 1
 72C:\Projects\Frontend_JS\Kursacz\node_modules\svgo\plugins\removeXMLNS.js133689627569798556 0
 66C:\Projects\Frontend_JS\Kursacz\node_modules\css-tree\package.json133689627575027512 0
@@ -53,7 +53,7 @@
 73C:\Projects\Frontend_JS\Kursacz\node_modules\css-select\lib\sort.d.ts.map133689627568160938 0
 91C:\Projects\Frontend_JS\Kursacz\node_modules\caniuse-lite\data\features\css-first-letter.js133689627572324410 0
 35C:\Projects\Frontend_JS\Kursacz\src133689630712810867 1
-36C:\Projects\Frontend_JS\Kursacz\dist133698352719912040 1
+36C:\Projects\Frontend_JS\Kursacz\dist133698600072298681 1
 49C:\Projects\Frontend_JS\Kursacz\package-lock.json133689635805655182 0
 75C:\Projects\Frontend_JS\Kursacz\node_modules\semver\functions\prerelease.js133689627566264122 0
 115C:\Projects\Frontend_JS\Kursacz\node_modules\@parcel\optimizer-svgo\node_modules\css-tree\lib\syntax\scope\value.js133689627571361425 0
@@ -62,7 +62,7 @@
 82C:\Projects\Frontend_JS\Kursacz\node_modules\@swc\helpers\cjs\_sliced_to_array.cjs133689627569079492 0
 57C:\Projects\Frontend_JS\Kursacz\node_modules\browserslist133689627562893380 1
 74C:\Projects\Frontend_JS\Kursacz\node_modules\mdn-data\css\definitions.json133689627562903444 0
-46C:\Projects\Frontend_JS\Kursacz\src\index.html133693374991343952 0
+46C:\Projects\Frontend_JS\Kursacz\src\index.html133698588933986248 0
 76C:\Projects\Frontend_JS\Kursacz\node_modules\lmdb\util\set-optional-deps.cjs133689627569641265 0
 90C:\Projects\Frontend_JS\Kursacz\node_modules\csso\node_modules\css-tree\lib\utils\index.js133689627573073577 0
 100C:\Projects\Frontend_JS\Kursacz\node_modules\react-refresh\cjs\react-refresh-babel.production.min.js133689627559222955 0
@@ -91,14 +91,14 @@
 93C:\Projects\Frontend_JS\Kursacz\node_modules\lmdb\node_modules\node-addon-api\tools\README.md133689627564851994 0
 98C:\Projects\Frontend_JS\Kursacz\node_modules\@parcel\optimizer-svgo\node_modules\csso\dist\csso.js133689627565242486 0
 90C:\Projects\Frontend_JS\Kursacz\node_modules\caniuse-lite\data\features\iframe-seamless.js133689627578324657 0
-49C:\Projects\Frontend_JS\Kursacz\src\scss\app.scss133692577069693457 0
+49C:\Projects\Frontend_JS\Kursacz\src\scss\app.scss133698547752822979 0
 55C:\Projects\Frontend_JS\Kursacz\node_modules\fill-range133689627558458606 1
 53C:\Projects\Frontend_JS\Kursacz\node_modules\has-flag133689627559177838 1
 90C:\Projects\Frontend_JS\Kursacz\node_modules\caniuse-lite\data\features\abortcontroller.js133689627558780072 0
 76C:\Projects\Frontend_JS\Kursacz\node_modules\@parcel\workers\lib\cpuCount.js133689627563635992 0
 67C:\Projects\Frontend_JS\Kursacz\node_modules\is-arrayish\.npmignore133689627557206141 0
 77C:\Projects\Frontend_JS\Kursacz\node_modules\@swc\helpers\_\_get_prototype_of133689627574664070 1
-45C:\Projects\Frontend_JS\Kursacz\src\js\app.js133698348511488788 0
+45C:\Projects\Frontend_JS\Kursacz\src\js\app.js133698573131271924 0
 59C:\Projects\Frontend_JS\Kursacz\node_modules\tslib\tslib.js133689627560065114 0
 81C:\Projects\Frontend_JS\Kursacz\node_modules\caniuse-lite\data\features\tls1-3.js133689627583715665 0
 94C:\Projects\Frontend_JS\Kursacz\node_modules\csso\node_modules\css-tree\lib\generator\index.js133689627572856252 0
@@ -107,9 +107,9 @@
 100C:\Projects\Frontend_JS\Kursacz\node_modules\htmlnano\docs\versioned_docs\version-2.0.0\020-usage.md133689627568206279 0
 64C:\Projects\Frontend_JS\Kursacz\node_modules\csso\cjs\syntax.cjs133689627566264122 0
 76C:\Projects\Frontend_JS\Kursacz\node_modules\cosmiconfig\dist\types.d.ts.map133689627566610458 0
-50C:\Projects\Frontend_JS\Kursacz\src\js\handlers.js133698352719544724 0
+50C:\Projects\Frontend_JS\Kursacz\src\js\handlers.js133698598609025444 0
 64C:\Projects\Frontend_JS\Kursacz\node_modules\callsites\readme.md133689627559333078 0
-49C:\Projects\Frontend_JS\Kursacz\src\js\helpers.js133693501313174637 0
+49C:\Projects\Frontend_JS\Kursacz\src\js\helpers.js133698600071927396 0
 53C:\Projects\Frontend_JS\Kursacz\node_modules\chokidar133689635802777573 1
 70C:\Projects\Frontend_JS\Kursacz\node_modules\sass\types\value\map.d.ts133689635803848539 0
 85C:\Projects\Frontend_JS\Kursacz\node_modules\css-tree\cjs\lexer\generic-an-plus-b.cjs133689627567531707 0
@@ -2127,7 +2127,7 @@
 95C:\Projects\Frontend_JS\Kursacz\node_modules\csso\node_modules\css-tree\cjs\syntax\node\Nth.cjs133689627569375759 0
 77C:\Projects\Frontend_JS\Kursacz\node_modules\lmdb\node_modules\node-addon-api133689627564631217 1
 70C:\Projects\Frontend_JS\Kursacz\node_modules\is-binary-path\index.d.ts133689635802270358 0
-55C:\Projects\Frontend_JS\Kursacz\dist\index.fcb3f8e3.css133693464320119450 0
+55C:\Projects\Frontend_JS\Kursacz\dist\index.fcb3f8e3.css133698547144716674 0
 88C:\Projects\Frontend_JS\Kursacz\node_modules\lmdb\node_modules\node-addon-api\LICENSE.md133689627564525952 0
 90C:\Projects\Frontend_JS\Kursacz\node_modules\@swc\helpers\src\_class_private_field_set.mjs133689627577419058 0
 92C:\Projects\Frontend_JS\Kursacz\node_modules\@swc\helpers\_\_is_native_function\package.json133689627575057656 0
@@ -4507,7 +4507,7 @@
 80C:\Projects\Frontend_JS\Kursacz\node_modules\caniuse-lite\data\features\webvr.js133689627584845141 0
 66C:\Projects\Frontend_JS\Kursacz\node_modules\braces\lib\compile.js133689627557464651 0
 86C:\Projects\Frontend_JS\Kursacz\node_modules\caniuse-lite\data\features\will-change.js133689627584915133 0
-54C:\Projects\Frontend_JS\Kursacz\dist\index.59a40e7a.js133698352719867054 0
+54C:\Projects\Frontend_JS\Kursacz\dist\index.59a40e7a.js133698600072258645 0
 80C:\Projects\Frontend_JS\Kursacz\node_modules\caniuse-lite\data\features\woff2.js133689627584940395 0
 91C:\Projects\Frontend_JS\Kursacz\node_modules\@parcel\core\src\requests\AssetGraphRequest.js133689627566006992 0
 90C:\Projects\Frontend_JS\Kursacz\node_modules\caniuse-lite\data\features\x-frame-options.js133689627585000361 0
@@ -6005,7 +6005,7 @@
 67C:\Projects\Frontend_JS\Kursacz\dist\index.59a40e7a.js.map.14552.12133689639248030977 0
 54C:\Projects\Frontend_JS\Kursacz\dist\index.8f0c9192.js133689639178227530 0
 58C:\Projects\Frontend_JS\Kursacz\dist\index.8f0c9192.js.map133689639178237804 0
-59C:\Projects\Frontend_JS\Kursacz\dist\index.fcb3f8e3.css.map133693464320149466 0
-47C:\Projects\Frontend_JS\Kursacz\dist\index.html133693464320320046 0
 56C:\Projects\Frontend_JS\Kursacz\dist\Kursacz.59712999.js133689639177665003 0
-58C:\Projects\Frontend_JS\Kursacz\dist\index.59a40e7a.js.map133698352719896925 0
+59C:\Projects\Frontend_JS\Kursacz\dist\index.fcb3f8e3.css.map133698547144746624 0
+47C:\Projects\Frontend_JS\Kursacz\dist\index.html133698588934205434 0
+58C:\Projects\Frontend_JS\Kursacz\dist\index.59a40e7a.js.map133698600072288680 0

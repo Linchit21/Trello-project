@@ -12,7 +12,15 @@
     <header class="header">
       <div class="container">
         <p class="container__text">Trello</p>
-        <div class="container__timer">24:00</div>
+        <div class="container__clock">
+          <ul>
+            <li id="hours">00</li>
+            <li id="separator">:</li>
+            <li id="minutes">00</li>
+            <li id="separator">:</li>
+            <li id="seconds">00</li>
+          </ul>
+        </div>
       </div>
     </header>
     <main class="main">
@@ -20,7 +28,7 @@
         <div class="todo item" id="task">
           <div class="todo-header">
             <p class="todo-header__text">TODO:</p>
-            <div class="todo-header__number"></div>
+            <div class="todo-header__number" id="count-tasks"></div>
           </div>
           <div class="todo-work__space" id="workspace-task"></div>
           <button type="button" class="todo-work__button_add-todo" id="add-todo">Add ToDo</button>
@@ -28,17 +36,17 @@
         <div class="todo item" id="in-progress">
           <div class="todo-header">
             <p class="todo-header__text">IN PROGRESS:</p>
-            <div class="todo-header__number">2</div>
+            <div class="todo-header__number" id="count-in-progress"></div>
           </div>
           <div class="todo-work__space" id="workspace-progress"></div>
         </div>
         <div class="todo item" id="done">
           <div class="todo-header">
             <p class="todo-header__text">Done:</p>
-            <div class="todo-header__number">2</div>
+            <div class="todo-header__number" id="count-done"></div>
           </div>
           <div class="todo-work__space" id="workspace-done"></div>
-          <button type="button" class="todo-work__button_add-todo">Delet all</button>
+          <button type="button" class="todo-work__button_delete-all">Delet all</button>
         </div>
       </div>
       <div id="window" class="window-hide">

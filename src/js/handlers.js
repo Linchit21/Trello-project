@@ -10,11 +10,12 @@ import {
   spaceDoneElement,
 } from './declaration.js';
 
-import {buildTemplateTodo, getActualTime} from './helpers.js';
+import {actualCounter, buildTemplateTodo, getActualTime} from './helpers.js';
 import {getTodos, setTodos} from './store.js';
 
 let isEdit = false;
 let todoEditId;
+let countTodoInprogress = 0;
 
 // Поиск нужного индекса в массиве
 function findTodo(id) {
@@ -52,28 +53,28 @@ const handleMakeTodo = function () {
       switch (selectStageElement.value) {
         case 'Todo':
           todoElement.remove();
-          // counterTodoElement.textContent = actualTodos.length; //
 
           editTodo(el.id, {column: 'Todo'});
           buildTemplateTodo(el, spaceTodoElement);
           addSelectListener(el, selectStageElement.value);
+          actualCounter();
           break;
         case 'In progress':
           todoElement.remove();
-          // counterTodoElement.textContent = actualTodos.length;
 
           editTodo(el.id, {column: 'In progress'});
           buildTemplateTodo(el, spaceProgressElement);
           addSelectListener(el, selectStageElement.value);
-          console.log(actualTodos);
+          actualCounter();
           break;
         case 'Done':
           todoElement.remove();
-          // counterTodoElement.textContent = actualTodos.length;
 
           editTodo(el.id, {column: 'Done'});
           buildTemplateTodo(el, spaceDoneElement);
           addSelectListener(el, selectStageElement.value);
+          actualCounter();
+
           break;
         default:
           console.log('Sorry');
@@ -104,7 +105,7 @@ const handleMakeTodo = function () {
       buildTemplateTodo(todo, spaceTodoElement);
       addSelectListener(todo);
 
-      // counterTodoElement.textContent = actualTodos.length;
+      actualCounter();
       setTodos(actualTodos);
       formElement.reset();
       console.log(actualTodos);
@@ -201,11 +202,18 @@ const handleChangingTodoTask = function () {
   }
 
   if (buttonDeleteElement) {
-    // Удаление карточки
     buttonDeleteElement.closest('.todo-work').remove();
     deleteTodo(idElement);
-    // counterTodoElement.textContent = actualTodos.length;
+    actualCounter();
   }
 };
 
-export {handleChangingTodoTask, handleMakeTodo};
+const handleDeleteAllTasks = function () {
+  const actualTodos = getTodos();
+  spaceDoneElement.innerHTML = '';
+
+  let newArray = actualTodos.filter(el => el.column !== 'Done');
+  setTodos(newArray);
+  actualCounter();
+};
+export {handleChangingTodoTask, handleMakeTodo, handleDeleteAllTasks};

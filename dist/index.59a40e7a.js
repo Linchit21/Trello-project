@@ -603,17 +603,34 @@ var _handlersJs = require("./handlers.js");
 (0, _declarationJs.todoInProgressElement).addEventListener("click", (0, _handlersJs.handleChangingTodoTask));
 // Делегирование на блок In progress, кнопки: Edit, Delete, Select
 (0, _declarationJs.todoDoneElement).addEventListener("click", (0, _handlersJs.handleChangingTodoTask));
+// Delete all
+(0, _declarationJs.buttonDeleteAllElement).addEventListener("click", (0, _handlersJs.handleDeleteAllTasks));
+window.onload = function() {
+    setInterval(function() {
+        // Seconds
+        var seconds = new Date().getSeconds();
+        document.getElementById("seconds").innerHTML = (seconds < 10 ? "0" : "") + seconds;
+        // Minutes
+        var minutes = new Date().getMinutes();
+        document.getElementById("minutes").innerHTML = (minutes < 10 ? "0" : "") + minutes;
+        // Hours
+        var hours = new Date().getHours();
+        document.getElementById("hours").innerHTML = (hours < 10 ? "0" : "") + hours;
+    }, 1000);
+};
 
 },{"./handlers.js":"jlk9X","./declaration.js":"3LNmn"}],"jlk9X":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "handleChangingTodoTask", ()=>handleChangingTodoTask);
 parcelHelpers.export(exports, "handleMakeTodo", ()=>handleMakeTodo);
+parcelHelpers.export(exports, "handleDeleteAllTasks", ()=>handleDeleteAllTasks);
 var _declarationJs = require("./declaration.js");
 var _helpersJs = require("./helpers.js");
 var _storeJs = require("./store.js");
 let isEdit = false;
 let todoEditId;
+let countTodoInprogress = 0;
 // Поиск нужного индекса в массиве
 function findTodo(id) {
     const actualTodos = (0, _storeJs.getTodos)();
@@ -648,31 +665,30 @@ const handleMakeTodo = function() {
             switch(selectStageElement.value){
                 case "Todo":
                     todoElement.remove();
-                    // counterTodoElement.textContent = actualTodos.length; //
                     editTodo(el.id, {
                         column: "Todo"
                     });
                     (0, _helpersJs.buildTemplateTodo)(el, (0, _declarationJs.spaceTodoElement));
                     addSelectListener(el, selectStageElement.value);
+                    (0, _helpersJs.actualCounter)();
                     break;
                 case "In progress":
                     todoElement.remove();
-                    // counterTodoElement.textContent = actualTodos.length;
                     editTodo(el.id, {
                         column: "In progress"
                     });
                     (0, _helpersJs.buildTemplateTodo)(el, (0, _declarationJs.spaceProgressElement));
                     addSelectListener(el, selectStageElement.value);
-                    console.log(actualTodos);
+                    (0, _helpersJs.actualCounter)();
                     break;
                 case "Done":
                     todoElement.remove();
-                    // counterTodoElement.textContent = actualTodos.length;
                     editTodo(el.id, {
                         column: "Done"
                     });
                     (0, _helpersJs.buildTemplateTodo)(el, (0, _declarationJs.spaceDoneElement));
                     addSelectListener(el, selectStageElement.value);
+                    (0, _helpersJs.actualCounter)();
                     break;
                 default:
                     console.log("Sorry");
@@ -697,7 +713,7 @@ const handleMakeTodo = function() {
             (0, _declarationJs.modalWindowElement).classList.toggle("window-hide");
             (0, _helpersJs.buildTemplateTodo)(todo, (0, _declarationJs.spaceTodoElement));
             addSelectListener(todo);
-            // counterTodoElement.textContent = actualTodos.length;
+            (0, _helpersJs.actualCounter)();
             (0, _storeJs.setTodos)(actualTodos);
             (0, _declarationJs.formElement).reset();
             console.log(actualTodos);
@@ -773,11 +789,17 @@ const handleChangingTodoTask = function() {
         (0, _declarationJs.modalWindowElement).classList.toggle("window-hide");
     }
     if (buttonDeleteElement) {
-        // Удаление карточки
         buttonDeleteElement.closest(".todo-work").remove();
         deleteTodo(idElement);
-    // counterTodoElement.textContent = actualTodos.length;
+        (0, _helpersJs.actualCounter)();
     }
+};
+const handleDeleteAllTasks = function() {
+    const actualTodos = (0, _storeJs.getTodos)();
+    (0, _declarationJs.spaceDoneElement).innerHTML = "";
+    let newArray = actualTodos.filter((el)=>el.column !== "Done");
+    (0, _storeJs.setTodos)(newArray);
+    (0, _helpersJs.actualCounter)();
 };
 
 },{"./declaration.js":"3LNmn","./helpers.js":"hGI1E","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./store.js":"9NZPX"}],"3LNmn":[function(require,module,exports) {
@@ -798,10 +820,14 @@ parcelHelpers.export(exports, "spaceTodoElement", ()=>spaceTodoElement);
 parcelHelpers.export(exports, "spaceProgressElement", ()=>spaceProgressElement);
 parcelHelpers.export(exports, "spaceDoneElement", ()=>spaceDoneElement);
 parcelHelpers.export(exports, "todoDoneElement", ()=>todoDoneElement);
-const buttonAddTodoElement = document.querySelector("#add-todo");
+parcelHelpers.export(exports, "buttonDeleteAllElement", ()=>buttonDeleteAllElement);
+parcelHelpers.export(exports, "counterDoneElement", ()=>counterDoneElement);
+parcelHelpers.export(exports, "counterInProgressElement", ()=>counterInProgressElement);
 const modalWindowElement = document.querySelector("#window");
+const buttonAddTodoElement = document.querySelector("#add-todo");
 const buttonConfirmTodoElement = document.querySelector("#add-confirm");
 const buttonCancelTodoElement = document.querySelector("#cancel");
+const buttonDeleteAllElement = document.querySelector(".todo-work__button_delete-all");
 const inputTitleTodoElement = document.querySelector("#todo-title");
 const inputDiscriptionTodoElement = document.querySelector("#todo-discription");
 const todoBlockElement = document.querySelector("#task");
@@ -809,7 +835,9 @@ const todoInProgressElement = document.querySelector("#in-progress");
 const todoDoneElement = document.querySelector("#done");
 const selectUserElement = document.querySelector("#users");
 const formElement = document.querySelector(".modals");
-const counterTodoElement = document.querySelector(".todo-header__number");
+const counterTodoElement = document.querySelector("#count-tasks");
+const counterInProgressElement = document.querySelector("#count-in-progress");
+const counterDoneElement = document.querySelector("#count-done");
 const spaceTodoElement = document.querySelector("#workspace-task");
 const spaceProgressElement = document.querySelector("#workspace-progress");
 const spaceDoneElement = document.querySelector("#workspace-done");
@@ -849,12 +877,35 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "buildTemplateTodo", ()=>buildTemplateTodo);
 parcelHelpers.export(exports, "getActualTime", ()=>getActualTime);
+parcelHelpers.export(exports, "actualCounter", ()=>actualCounter);
 var _declarationJs = require("./declaration.js");
+var _storeJs = require("./store.js");
 function getActualTime() {
     const date = new Date(); // Data
     const createdAt = `${date.getHours()}:${date.getMinutes()}
   ${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate()}  `;
     return createdAt;
+}
+function actualCounter() {
+    const actualTodos = (0, _storeJs.getTodos)();
+    let count1 = 0;
+    let count2 = 0;
+    let count3 = 0;
+    (0, _declarationJs.counterTodoElement).textContent = 0;
+    (0, _declarationJs.counterInProgressElement).textContent = 0;
+    (0, _declarationJs.counterDoneElement).textContent = 0;
+    actualTodos.forEach((el)=>{
+        if (el.column == "Todo") {
+            count1 = count1 + 1;
+            (0, _declarationJs.counterTodoElement).textContent = count1;
+        } else if (el.column == "In progress") {
+            count2 = count2 + 1;
+            (0, _declarationJs.counterInProgressElement).textContent = count2;
+        } else if (el.column == "Done") {
+            count3 = count3 + 1;
+            (0, _declarationJs.counterDoneElement).textContent = count3;
+        }
+    });
 }
 const buildTemplateTodo = (todo, columnElement)=>{
     const { id, text, title, createdAt, userIndex } = todo;
@@ -879,7 +930,7 @@ const buildTemplateTodo = (todo, columnElement)=>{
     </div>`);
 };
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./declaration.js":"3LNmn"}],"9NZPX":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./declaration.js":"3LNmn","./store.js":"9NZPX"}],"9NZPX":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "getTodos", ()=>getTodos);
