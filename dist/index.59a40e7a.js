@@ -926,7 +926,7 @@ function actualCounter() {
 }
 const buildTemplateTodo = (todo, columnElement)=>{
     const { id, text, title, createdAt, userIndex } = todo;
-    columnElement.insertAdjacentHTML("beforeend", `<div class="todo-work" id="${id}">
+    columnElement.insertAdjacentHTML("afterbegin", `<div class="todo-work" id="${id}">
         <p class="todo-work__title">Title: ${title}</p>
         <p class="todo-work__discription">Discription: ${text}</p>
         <p>${(0, _declarationJs.selectUserElement).options[userIndex].value}</p>

@@ -10,12 +10,12 @@
 }
 
 .container {
-  background-color: #8a2be2;
+  background-color: #35acb8;
   border: 2px solid #000;
   border-radius: 50px;
   justify-content: space-between;
   align-items: center;
-  max-width: 1200px;
+  max-width: 1000px;
   margin: auto;
   padding: 50px;
   display: flex;
@@ -59,11 +59,11 @@
   border: 2px solid #000;
   border-radius: 30px;
   flex-direction: column;
-  justify-content: space-between;
-  max-width: 350px;
-  height: 800px;
+  width: 350px;
+  height: 1000px;
   padding: 20px;
   display: flex;
+  overflow: hidden;
 }
 
 .todo-header {
@@ -116,19 +116,18 @@
 }
 
 .todo-work__space {
-  height: 600px;
+  height: 1000px;
   padding: 5px;
-}
-
-.todo-work__button_add-todo {
-  width: 240px;
-  margin-top: 50px;
 }
 
 .todo-work__buttons {
   justify-content: space-between;
   margin: 0;
   display: flex;
+}
+
+.todo-work__button_delete-all {
+  bottom: 100%;
 }
 
 .modals {

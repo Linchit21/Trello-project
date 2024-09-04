@@ -40,7 +40,7 @@ function actualCounter() {
 const buildTemplateTodo = (todo, columnElement) => {
   const {id, text, title, createdAt, userIndex} = todo;
   columnElement.insertAdjacentHTML(
-    'beforeend',
+    'afterbegin',
     `<div class="todo-work" id="${id}">
         <p class="todo-work__title">Title: ${title}</p>
         <p class="todo-work__discription">Discription: ${text}</p>
