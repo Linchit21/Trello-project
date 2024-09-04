@@ -2,20 +2,28 @@ import {
   buttonAddTodoElement,
   buttonCancelTodoElement,
   buttonConfirmTodoElement,
+  buttonDeleteAllCancelElement,
+  buttonDeleteAllConfirmElement,
   buttonDeleteAllElement,
   counterInProgressElement,
   formElement,
-  modalWindowElement,
+  modalWindowAddElement,
+  modalWindowDeleteAllElement,
   todoBlockElement,
   todoDoneElement,
   todoInProgressElement,
 } from './declaration.js';
-import {handleChangingTodoTask, handleDeleteAllTasks, handleMakeTodo} from './handlers.js';
+import {
+  handleChangingTodoTask,
+  handleCallModalDelete,
+  handleMakeTodo,
+  handleDeleteAllTask,
+} from './handlers.js';
 
 // Модальное окно вкл и выкл, кнопка add
 buttonAddTodoElement.addEventListener('click', function () {
   if (counterInProgressElement.textContent != 2) {
-    modalWindowElement.classList.toggle('window-hide');
+    modalWindowAddElement.classList.toggle('window-hide');
   } else {
     alert('Превышенно максимальное количество дел!!!!!!');
   }
@@ -23,7 +31,7 @@ buttonAddTodoElement.addEventListener('click', function () {
 
 // Спрятать модальное окно и сделать ресет формы, кнопка cancel в модалке
 buttonCancelTodoElement.addEventListener('click', function () {
-  modalWindowElement.classList.toggle('window-hide');
+  modalWindowAddElement.classList.toggle('window-hide');
   formElement.reset();
 });
 
@@ -39,8 +47,15 @@ todoInProgressElement.addEventListener('click', handleChangingTodoTask);
 // Делегирование на блок In progress, кнопки: Edit, Delete, Select
 todoDoneElement.addEventListener('click', handleChangingTodoTask);
 
-// Delete all
-buttonDeleteAllElement.addEventListener('click', handleDeleteAllTasks);
+// Вызов модальное окна на удаление
+buttonDeleteAllElement.addEventListener('click', handleCallModalDelete);
+
+// Отмена удаление дел
+buttonDeleteAllCancelElement.addEventListener('click', function () {
+  modalWindowDeleteAllElement.classList.toggle('window-hide');
+});
+
+buttonDeleteAllConfirmElement.addEventListener('click', handleDeleteAllTask);
 
 window.onload = function () {
   setInterval(function () {

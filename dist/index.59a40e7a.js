@@ -588,12 +588,12 @@ var _declarationJs = require("./declaration.js");
 var _handlersJs = require("./handlers.js");
 // Модальное окно вкл и выкл, кнопка add
 (0, _declarationJs.buttonAddTodoElement).addEventListener("click", function() {
-    if ((0, _declarationJs.counterInProgressElement).textContent != 2) (0, _declarationJs.modalWindowElement).classList.toggle("window-hide");
+    if ((0, _declarationJs.counterInProgressElement).textContent != 2) (0, _declarationJs.modalWindowAddElement).classList.toggle("window-hide");
     else alert("\u041F\u0440\u0435\u0432\u044B\u0448\u0435\u043D\u043D\u043E \u043C\u0430\u043A\u0441\u0438\u043C\u0430\u043B\u044C\u043D\u043E\u0435 \u043A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E \u0434\u0435\u043B!!!!!!");
 });
 // Спрятать модальное окно и сделать ресет формы, кнопка cancel в модалке
 (0, _declarationJs.buttonCancelTodoElement).addEventListener("click", function() {
-    (0, _declarationJs.modalWindowElement).classList.toggle("window-hide");
+    (0, _declarationJs.modalWindowAddElement).classList.toggle("window-hide");
     (0, _declarationJs.formElement).reset();
 });
 // Подтверждение и рендеринг TODO, кнопка confirm
@@ -604,8 +604,13 @@ var _handlersJs = require("./handlers.js");
 (0, _declarationJs.todoInProgressElement).addEventListener("click", (0, _handlersJs.handleChangingTodoTask));
 // Делегирование на блок In progress, кнопки: Edit, Delete, Select
 (0, _declarationJs.todoDoneElement).addEventListener("click", (0, _handlersJs.handleChangingTodoTask));
-// Delete all
-(0, _declarationJs.buttonDeleteAllElement).addEventListener("click", (0, _handlersJs.handleDeleteAllTasks));
+// Вызов модальное окна на удаление
+(0, _declarationJs.buttonDeleteAllElement).addEventListener("click", (0, _handlersJs.handleCallModalDelete));
+// Отмена удаление дел
+(0, _declarationJs.buttonDeleteAllCancelElement).addEventListener("click", function() {
+    (0, _declarationJs.modalWindowDeleteAllElement).classList.toggle("window-hide");
+});
+(0, _declarationJs.buttonDeleteAllConfirmElement).addEventListener("click", (0, _handlersJs.handleDeleteAllTask));
 window.onload = function() {
     setInterval(function() {
         // Seconds
@@ -620,12 +625,89 @@ window.onload = function() {
     }, 1000);
 };
 
-},{"./handlers.js":"jlk9X","./declaration.js":"3LNmn"}],"jlk9X":[function(require,module,exports) {
+},{"./declaration.js":"3LNmn","./handlers.js":"jlk9X"}],"3LNmn":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "buttonAddTodoElement", ()=>buttonAddTodoElement);
+parcelHelpers.export(exports, "modalWindowAddElement", ()=>modalWindowAddElement);
+parcelHelpers.export(exports, "buttonConfirmTodoElement", ()=>buttonConfirmTodoElement);
+parcelHelpers.export(exports, "buttonCancelTodoElement", ()=>buttonCancelTodoElement);
+parcelHelpers.export(exports, "inputTitleTodoElement", ()=>inputTitleTodoElement);
+parcelHelpers.export(exports, "inputDiscriptionTodoElement", ()=>inputDiscriptionTodoElement);
+parcelHelpers.export(exports, "todoBlockElement", ()=>todoBlockElement);
+parcelHelpers.export(exports, "todoInProgressElement", ()=>todoInProgressElement);
+parcelHelpers.export(exports, "selectUserElement", ()=>selectUserElement);
+parcelHelpers.export(exports, "formElement", ()=>formElement);
+parcelHelpers.export(exports, "counterTodoElement", ()=>counterTodoElement);
+parcelHelpers.export(exports, "spaceTodoElement", ()=>spaceTodoElement);
+parcelHelpers.export(exports, "spaceProgressElement", ()=>spaceProgressElement);
+parcelHelpers.export(exports, "spaceDoneElement", ()=>spaceDoneElement);
+parcelHelpers.export(exports, "todoDoneElement", ()=>todoDoneElement);
+parcelHelpers.export(exports, "buttonDeleteAllElement", ()=>buttonDeleteAllElement);
+parcelHelpers.export(exports, "counterDoneElement", ()=>counterDoneElement);
+parcelHelpers.export(exports, "counterInProgressElement", ()=>counterInProgressElement);
+parcelHelpers.export(exports, "modalWindowDeleteAllElement", ()=>modalWindowDeleteAllElement);
+parcelHelpers.export(exports, "buttonDeleteAllConfirmElement", ()=>buttonDeleteAllConfirmElement);
+parcelHelpers.export(exports, "buttonDeleteAllCancelElement", ()=>buttonDeleteAllCancelElement);
+const modalWindowAddElement = document.querySelector("#window-add");
+const modalWindowDeleteAllElement = document.querySelector("#window-delete");
+const buttonAddTodoElement = document.querySelector("#add-todo");
+const buttonConfirmTodoElement = document.querySelector("#add-confirm");
+const buttonCancelTodoElement = document.querySelector("#cancel");
+const buttonDeleteAllElement = document.querySelector(".todo-work__button_delete-all");
+const buttonDeleteAllConfirmElement = document.querySelector(".button-delete-all-confirm");
+const buttonDeleteAllCancelElement = document.querySelector(".button-delete-all-cancel");
+const inputTitleTodoElement = document.querySelector("#todo-title");
+const inputDiscriptionTodoElement = document.querySelector("#todo-discription");
+const todoBlockElement = document.querySelector("#task");
+const todoInProgressElement = document.querySelector("#in-progress");
+const todoDoneElement = document.querySelector("#done");
+const selectUserElement = document.querySelector("#users");
+const formElement = document.querySelector(".modals");
+const counterTodoElement = document.querySelector("#count-tasks");
+const counterInProgressElement = document.querySelector("#count-in-progress");
+const counterDoneElement = document.querySelector("#count-done");
+const spaceTodoElement = document.querySelector("#workspace-task");
+const spaceProgressElement = document.querySelector("#workspace-progress");
+const spaceDoneElement = document.querySelector("#workspace-done");
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
+exports.interopDefault = function(a) {
+    return a && a.__esModule ? a : {
+        default: a
+    };
+};
+exports.defineInteropFlag = function(a) {
+    Object.defineProperty(a, "__esModule", {
+        value: true
+    });
+};
+exports.exportAll = function(source, dest) {
+    Object.keys(source).forEach(function(key) {
+        if (key === "default" || key === "__esModule" || Object.prototype.hasOwnProperty.call(dest, key)) return;
+        Object.defineProperty(dest, key, {
+            enumerable: true,
+            get: function() {
+                return source[key];
+            }
+        });
+    });
+    return dest;
+};
+exports.export = function(dest, destName, get) {
+    Object.defineProperty(dest, destName, {
+        enumerable: true,
+        get: get
+    });
+};
+
+},{}],"jlk9X":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "handleChangingTodoTask", ()=>handleChangingTodoTask);
 parcelHelpers.export(exports, "handleMakeTodo", ()=>handleMakeTodo);
-parcelHelpers.export(exports, "handleDeleteAllTasks", ()=>handleDeleteAllTasks);
+parcelHelpers.export(exports, "handleCallModalDelete", ()=>handleCallModalDelete);
+parcelHelpers.export(exports, "handleDeleteAllTask", ()=>handleDeleteAllTask);
 var _declarationJs = require("./declaration.js");
 var _helpersJs = require("./helpers.js");
 var _storeJs = require("./store.js");
@@ -710,7 +792,7 @@ const handleMakeTodo = function() {
             }
             const todo = new Todo();
             actualTodos.push(todo);
-            (0, _declarationJs.modalWindowElement).classList.toggle("window-hide");
+            (0, _declarationJs.modalWindowAddElement).classList.toggle("window-hide");
             (0, _helpersJs.buildTemplateTodo)(todo, (0, _declarationJs.spaceTodoElement));
             addSelectListener(todo);
             (0, _helpersJs.actualCounter)();
@@ -732,7 +814,7 @@ const handleMakeTodo = function() {
                 addSelectListener(el);
             }
         });
-        (0, _declarationJs.modalWindowElement).classList.toggle("window-hide");
+        (0, _declarationJs.modalWindowAddElement).classList.toggle("window-hide");
         // counterTodoElement.textContent = actualTodos.length;
         (0, _declarationJs.formElement).reset();
         isEdit = false;
@@ -750,7 +832,7 @@ const handleMakeTodo = function() {
                 addSelectListener(el, "In progress");
             }
         });
-        (0, _declarationJs.modalWindowElement).classList.toggle("window-hide");
+        (0, _declarationJs.modalWindowAddElement).classList.toggle("window-hide");
         // counterTodoElement.textContent = actualTodos.length;
         (0, _declarationJs.formElement).reset();
         isEdit = false;
@@ -768,7 +850,7 @@ const handleMakeTodo = function() {
                 addSelectListener(el, "Done");
             }
         });
-        (0, _declarationJs.modalWindowElement).classList.toggle("window-hide");
+        (0, _declarationJs.modalWindowAddElement).classList.toggle("window-hide");
         // counterTodoElement.textContent = actualTodos.length;
         (0, _declarationJs.formElement).reset();
         isEdit = false;
@@ -786,7 +868,7 @@ const handleChangingTodoTask = function() {
         todoEditId = idElement;
         (0, _declarationJs.inputTitleTodoElement).value = todo.title;
         (0, _declarationJs.inputDiscriptionTodoElement).value = todo.text;
-        (0, _declarationJs.modalWindowElement).classList.toggle("window-hide");
+        (0, _declarationJs.modalWindowAddElement).classList.toggle("window-hide");
     }
     if (buttonDeleteElement) {
         buttonDeleteElement.closest(".todo-work").remove();
@@ -794,85 +876,19 @@ const handleChangingTodoTask = function() {
         (0, _helpersJs.actualCounter)();
     }
 };
-const handleDeleteAllTasks = function() {
+const handleCallModalDelete = function() {
+    (0, _declarationJs.modalWindowDeleteAllElement).classList.toggle("window-hide");
+};
+const handleDeleteAllTask = function() {
     const actualTodos = (0, _storeJs.getTodos)();
     (0, _declarationJs.spaceDoneElement).innerHTML = "";
     let newArray = actualTodos.filter((el)=>el.column !== "Done");
     (0, _storeJs.setTodos)(newArray);
     (0, _helpersJs.actualCounter)();
+    (0, _declarationJs.modalWindowDeleteAllElement).classList.toggle("window-hide");
 };
 
-},{"./declaration.js":"3LNmn","./helpers.js":"hGI1E","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./store.js":"9NZPX"}],"3LNmn":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "buttonAddTodoElement", ()=>buttonAddTodoElement);
-parcelHelpers.export(exports, "modalWindowElement", ()=>modalWindowElement);
-parcelHelpers.export(exports, "buttonConfirmTodoElement", ()=>buttonConfirmTodoElement);
-parcelHelpers.export(exports, "buttonCancelTodoElement", ()=>buttonCancelTodoElement);
-parcelHelpers.export(exports, "inputTitleTodoElement", ()=>inputTitleTodoElement);
-parcelHelpers.export(exports, "inputDiscriptionTodoElement", ()=>inputDiscriptionTodoElement);
-parcelHelpers.export(exports, "todoBlockElement", ()=>todoBlockElement);
-parcelHelpers.export(exports, "todoInProgressElement", ()=>todoInProgressElement);
-parcelHelpers.export(exports, "selectUserElement", ()=>selectUserElement);
-parcelHelpers.export(exports, "formElement", ()=>formElement);
-parcelHelpers.export(exports, "counterTodoElement", ()=>counterTodoElement);
-parcelHelpers.export(exports, "spaceTodoElement", ()=>spaceTodoElement);
-parcelHelpers.export(exports, "spaceProgressElement", ()=>spaceProgressElement);
-parcelHelpers.export(exports, "spaceDoneElement", ()=>spaceDoneElement);
-parcelHelpers.export(exports, "todoDoneElement", ()=>todoDoneElement);
-parcelHelpers.export(exports, "buttonDeleteAllElement", ()=>buttonDeleteAllElement);
-parcelHelpers.export(exports, "counterDoneElement", ()=>counterDoneElement);
-parcelHelpers.export(exports, "counterInProgressElement", ()=>counterInProgressElement);
-const modalWindowElement = document.querySelector("#window");
-const buttonAddTodoElement = document.querySelector("#add-todo");
-const buttonConfirmTodoElement = document.querySelector("#add-confirm");
-const buttonCancelTodoElement = document.querySelector("#cancel");
-const buttonDeleteAllElement = document.querySelector(".todo-work__button_delete-all");
-const inputTitleTodoElement = document.querySelector("#todo-title");
-const inputDiscriptionTodoElement = document.querySelector("#todo-discription");
-const todoBlockElement = document.querySelector("#task");
-const todoInProgressElement = document.querySelector("#in-progress");
-const todoDoneElement = document.querySelector("#done");
-const selectUserElement = document.querySelector("#users");
-const formElement = document.querySelector(".modals");
-const counterTodoElement = document.querySelector("#count-tasks");
-const counterInProgressElement = document.querySelector("#count-in-progress");
-const counterDoneElement = document.querySelector("#count-done");
-const spaceTodoElement = document.querySelector("#workspace-task");
-const spaceProgressElement = document.querySelector("#workspace-progress");
-const spaceDoneElement = document.querySelector("#workspace-done");
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
-exports.interopDefault = function(a) {
-    return a && a.__esModule ? a : {
-        default: a
-    };
-};
-exports.defineInteropFlag = function(a) {
-    Object.defineProperty(a, "__esModule", {
-        value: true
-    });
-};
-exports.exportAll = function(source, dest) {
-    Object.keys(source).forEach(function(key) {
-        if (key === "default" || key === "__esModule" || Object.prototype.hasOwnProperty.call(dest, key)) return;
-        Object.defineProperty(dest, key, {
-            enumerable: true,
-            get: function() {
-                return source[key];
-            }
-        });
-    });
-    return dest;
-};
-exports.export = function(dest, destName, get) {
-    Object.defineProperty(dest, destName, {
-        enumerable: true,
-        get: get
-    });
-};
-
-},{}],"hGI1E":[function(require,module,exports) {
+},{"./declaration.js":"3LNmn","./helpers.js":"hGI1E","./store.js":"9NZPX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"hGI1E":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "buildTemplateTodo", ()=>buildTemplateTodo);
@@ -931,7 +947,7 @@ const buildTemplateTodo = (todo, columnElement)=>{
     </div>`);
 };
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./declaration.js":"3LNmn","./store.js":"9NZPX"}],"9NZPX":[function(require,module,exports) {
+},{"./declaration.js":"3LNmn","./store.js":"9NZPX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"9NZPX":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "getTodos", ()=>getTodos);

@@ -1,9 +1,12 @@
-const modalWindowElement = document.querySelector('#window');
+const modalWindowAddElement = document.querySelector('#window-add');
+const modalWindowDeleteAllElement = document.querySelector('#window-delete');
 
 const buttonAddTodoElement = document.querySelector('#add-todo');
 const buttonConfirmTodoElement = document.querySelector('#add-confirm');
 const buttonCancelTodoElement = document.querySelector('#cancel');
 const buttonDeleteAllElement = document.querySelector('.todo-work__button_delete-all');
+const buttonDeleteAllConfirmElement = document.querySelector('.button-delete-all-confirm');
+const buttonDeleteAllCancelElement = document.querySelector('.button-delete-all-cancel');
 
 const inputTitleTodoElement = document.querySelector('#todo-title');
 const inputDiscriptionTodoElement = document.querySelector('#todo-discription');
@@ -25,7 +28,7 @@ const spaceDoneElement = document.querySelector('#workspace-done');
 
 export {
   buttonAddTodoElement,
-  modalWindowElement,
+  modalWindowAddElement,
   buttonConfirmTodoElement,
   buttonCancelTodoElement,
   inputTitleTodoElement,
@@ -42,4 +45,7 @@ export {
   buttonDeleteAllElement,
   counterDoneElement,
   counterInProgressElement,
+  modalWindowDeleteAllElement,
+  buttonDeleteAllConfirmElement,
+  buttonDeleteAllCancelElement,
 };

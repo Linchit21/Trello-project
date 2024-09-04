@@ -3,12 +3,13 @@ import {
   formElement,
   inputDiscriptionTodoElement,
   inputTitleTodoElement,
-  modalWindowElement,
+  modalWindowAddElement,
   selectUserElement,
   spaceTodoElement,
   spaceProgressElement,
   spaceDoneElement,
   counterInProgressElement,
+  modalWindowDeleteAllElement,
 } from './declaration.js';
 
 import {actualCounter, buildTemplateTodo, getActualTime} from './helpers.js';
@@ -100,7 +101,7 @@ const handleMakeTodo = function () {
       const todo = new Todo();
 
       actualTodos.push(todo);
-      modalWindowElement.classList.toggle('window-hide');
+      modalWindowAddElement.classList.toggle('window-hide');
 
       buildTemplateTodo(todo, spaceTodoElement);
       addSelectListener(todo);
@@ -128,7 +129,7 @@ const handleMakeTodo = function () {
       }
     });
 
-    modalWindowElement.classList.toggle('window-hide');
+    modalWindowAddElement.classList.toggle('window-hide');
 
     // counterTodoElement.textContent = actualTodos.length;
     formElement.reset();
@@ -151,7 +152,7 @@ const handleMakeTodo = function () {
       }
     });
 
-    modalWindowElement.classList.toggle('window-hide');
+    modalWindowAddElement.classList.toggle('window-hide');
 
     // counterTodoElement.textContent = actualTodos.length;
     formElement.reset();
@@ -174,7 +175,7 @@ const handleMakeTodo = function () {
       }
     });
 
-    modalWindowElement.classList.toggle('window-hide');
+    modalWindowAddElement.classList.toggle('window-hide');
 
     // counterTodoElement.textContent = actualTodos.length;
     formElement.reset();
@@ -198,7 +199,7 @@ const handleChangingTodoTask = function () {
     inputTitleTodoElement.value = todo.title;
     inputDiscriptionTodoElement.value = todo.text;
 
-    modalWindowElement.classList.toggle('window-hide');
+    modalWindowAddElement.classList.toggle('window-hide');
   }
 
   if (buttonDeleteElement) {
@@ -208,12 +209,18 @@ const handleChangingTodoTask = function () {
   }
 };
 
-const handleDeleteAllTasks = function () {
+const handleCallModalDelete = function () {
+  modalWindowDeleteAllElement.classList.toggle('window-hide');
+};
+
+const handleDeleteAllTask = function () {
   const actualTodos = getTodos();
   spaceDoneElement.innerHTML = '';
 
   let newArray = actualTodos.filter(el => el.column !== 'Done');
   setTodos(newArray);
   actualCounter();
+  modalWindowDeleteAllElement.classList.toggle('window-hide');
 };
-export {handleChangingTodoTask, handleMakeTodo, handleDeleteAllTasks};
+
+export {handleChangingTodoTask, handleMakeTodo, handleCallModalDelete, handleDeleteAllTask};

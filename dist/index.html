@@ -49,7 +49,7 @@
           <button type="button" class="todo-work__button_delete-all">Delet all</button>
         </div>
       </div>
-      <div id="window" class="window-hide">
+      <div id="window-add" class="window-hide">
         <form class="modals">
           <input type="text" class="modals__title" placeholder="Title" id="todo-title">
           <textarea name="" id="todo-discription" class="modals__discription" placeholder="Discription"></textarea>
@@ -64,6 +64,11 @@
             <button type="button" class="modals__cancel" id="cancel">Cancel</button>
           </div>
         </form>
+      </div>
+      <div id="window-delete" class="window-hide modals">
+        <p>Вы действительно хотите удалить все выполненные задания?</p>
+        <button type="button" class="btn btn-primary button-delete-all-confirm">Удалить</button>
+        <button type="button" class="btn btn-link button-delete-all-cancel">Отмена</button>
       </div>
     </main>
   </body>
