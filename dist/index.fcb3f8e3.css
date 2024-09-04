@@ -5,6 +5,10 @@
   font-family: Futura PT;
 }
 
+#body {
+  background-color: #a150b5;
+}
+
 .header {
   margin-top: 50px;
 }

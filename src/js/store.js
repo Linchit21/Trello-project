@@ -1,3 +1,5 @@
+import {todosKey} from './declaration.js';
+
 let todos = [];
 
 function getTodos() {
@@ -9,7 +11,7 @@ function setTodos(value) {
   // Обновление массива и запись в localStorage
   todos = value;
   window.todos = todos;
-  //   localStorage.setItem(todosKey, JSON.stringify(todos));
+  localStorage.setItem(todosKey, JSON.stringify(todos));
 }
 
 export {getTodos, setTodos};

@@ -586,6 +586,7 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 },{}],"8lRBv":[function(require,module,exports) {
 var _declarationJs = require("./declaration.js");
 var _handlersJs = require("./handlers.js");
+var _helpersJs = require("./helpers.js");
 // Модальное окно вкл и выкл, кнопка add
 (0, _declarationJs.buttonAddTodoElement).addEventListener("click", function() {
     if ((0, _declarationJs.counterInProgressElement).textContent != 2) (0, _declarationJs.modalWindowAddElement).classList.toggle("window-hide");
@@ -624,8 +625,10 @@ window.onload = function() {
         document.getElementById("hours").innerHTML = (hours < 10 ? "0" : "") + hours;
     }, 1000);
 };
+(0, _helpersJs.renderTodos)();
+(0, _helpersJs.actualCounter)();
 
-},{"./declaration.js":"3LNmn","./handlers.js":"jlk9X"}],"3LNmn":[function(require,module,exports) {
+},{"./declaration.js":"3LNmn","./handlers.js":"jlk9X","./helpers.js":"hGI1E"}],"3LNmn":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "buttonAddTodoElement", ()=>buttonAddTodoElement);
@@ -649,6 +652,7 @@ parcelHelpers.export(exports, "counterInProgressElement", ()=>counterInProgressE
 parcelHelpers.export(exports, "modalWindowDeleteAllElement", ()=>modalWindowDeleteAllElement);
 parcelHelpers.export(exports, "buttonDeleteAllConfirmElement", ()=>buttonDeleteAllConfirmElement);
 parcelHelpers.export(exports, "buttonDeleteAllCancelElement", ()=>buttonDeleteAllCancelElement);
+parcelHelpers.export(exports, "todosKey", ()=>todosKey);
 const modalWindowAddElement = document.querySelector("#window-add");
 const modalWindowDeleteAllElement = document.querySelector("#window-delete");
 const buttonAddTodoElement = document.querySelector("#add-todo");
@@ -670,6 +674,7 @@ const counterDoneElement = document.querySelector("#count-done");
 const spaceTodoElement = document.querySelector("#workspace-task");
 const spaceProgressElement = document.querySelector("#workspace-progress");
 const spaceDoneElement = document.querySelector("#workspace-done");
+const todosKey = "todos";
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
 exports.interopDefault = function(a) {
@@ -713,77 +718,18 @@ var _helpersJs = require("./helpers.js");
 var _storeJs = require("./store.js");
 let isEdit = false;
 let todoEditId;
-// Поиск нужного индекса в массиве
-function findTodo(id) {
-    const actualTodos = (0, _storeJs.getTodos)();
-    const indexTodo = actualTodos.findIndex((el)=>el.id == id);
-    return actualTodos[indexTodo];
-}
-// Поиск нужного индекса в массиве, изменение и сохранение
-function editTodo(id, newValue) {
-    const actualTodos = (0, _storeJs.getTodos)();
-    const indexTodo = actualTodos.findIndex((el)=>el.id == id);
-    actualTodos[indexTodo] = {
-        ...actualTodos[indexTodo],
-        ...newValue
-    };
-    (0, _storeJs.setTodos)(actualTodos);
-}
-// Поиск нужного индекса в массиве, удаление из массива и сохранение
-function deleteTodo(id) {
-    const actualTodos = (0, _storeJs.getTodos)();
-    const indexTodo = actualTodos.findIndex((el)=>el.id == id);
-    actualTodos.splice(indexTodo, 1);
-    (0, _storeJs.setTodos)(actualTodos);
-}
 // Подтверждение TODO и отрисовка
 const handleMakeTodo = function() {
     const actualTodos = (0, _storeJs.getTodos)();
-    function addSelectListener(el, selectValue = "Todo") {
-        const todoElement = document.getElementById(el.id);
-        const selectStageElement = todoElement.querySelector("#select-todo");
-        selectStageElement.value = selectValue;
-        selectStageElement.addEventListener("change", function() {
-            switch(selectStageElement.value){
-                case "Todo":
-                    todoElement.remove();
-                    editTodo(el.id, {
-                        column: "Todo"
-                    });
-                    (0, _helpersJs.buildTemplateTodo)(el, (0, _declarationJs.spaceTodoElement));
-                    addSelectListener(el, selectStageElement.value);
-                    (0, _helpersJs.actualCounter)();
-                    break;
-                case "In progress":
-                    todoElement.remove();
-                    editTodo(el.id, {
-                        column: "In progress"
-                    });
-                    (0, _helpersJs.buildTemplateTodo)(el, (0, _declarationJs.spaceProgressElement));
-                    addSelectListener(el, selectStageElement.value);
-                    (0, _helpersJs.actualCounter)();
-                    break;
-                case "Done":
-                    todoElement.remove();
-                    editTodo(el.id, {
-                        column: "Done"
-                    });
-                    (0, _helpersJs.buildTemplateTodo)(el, (0, _declarationJs.spaceDoneElement));
-                    addSelectListener(el, selectStageElement.value);
-                    (0, _helpersJs.actualCounter)();
-                    break;
-                default:
-                    console.log("Sorry");
-            }
-        });
-    }
+    const userName = (0, _declarationJs.selectUserElement).selectedIndex;
     if (!isEdit) {
         if ((0, _declarationJs.inputTitleTodoElement).value !== "" || (0, _declarationJs.inputDiscriptionTodoElement).value !== "") {
-            const newId = crypto.randomUUID();
+            const idTask = crypto.randomUUID();
+            const idSelect = crypto.randomUUID();
             const time = (0, _helpersJs.getActualTime)();
-            const userName = (0, _declarationJs.selectUserElement).selectedIndex;
             function Todo() {
-                this.id = newId;
+                this.id = idTask;
+                this.selectId = idSelect;
                 this.text = (0, _declarationJs.inputDiscriptionTodoElement).value;
                 this.title = (0, _declarationJs.inputTitleTodoElement).value;
                 this.createdAt = time;
@@ -794,64 +740,61 @@ const handleMakeTodo = function() {
             actualTodos.push(todo);
             (0, _declarationJs.modalWindowAddElement).classList.toggle("window-hide");
             (0, _helpersJs.buildTemplateTodo)(todo, (0, _declarationJs.spaceTodoElement));
-            addSelectListener(todo);
+            (0, _helpersJs.addSelectListener)(todo);
             (0, _helpersJs.actualCounter)();
             (0, _storeJs.setTodos)(actualTodos);
             (0, _declarationJs.formElement).reset();
             console.log(actualTodos);
         }
-    } else if (findTodo(todoEditId).column == "Todo") {
+    } else if ((0, _helpersJs.findTodo)(todoEditId).column == "Todo") {
         console.log("Todo");
-        editTodo(todoEditId, {
+        (0, _helpersJs.editTodo)(todoEditId, {
             text: (0, _declarationJs.inputDiscriptionTodoElement).value,
             title: (0, _declarationJs.inputTitleTodoElement).value,
-            userIndex: (0, _declarationJs.selectUserElement).selectedIndex
+            userIndex: userName
         });
         (0, _declarationJs.spaceTodoElement).innerHTML = ""; // Очистка колонки
         actualTodos.forEach((el)=>{
             if (el.column == "Todo") {
                 (0, _helpersJs.buildTemplateTodo)(el, (0, _declarationJs.spaceTodoElement));
-                addSelectListener(el);
+                (0, _helpersJs.addSelectListener)(el);
             }
         });
         (0, _declarationJs.modalWindowAddElement).classList.toggle("window-hide");
-        // counterTodoElement.textContent = actualTodos.length;
         (0, _declarationJs.formElement).reset();
         isEdit = false;
-    } else if (findTodo(todoEditId).column == "In progress") {
+    } else if ((0, _helpersJs.findTodo)(todoEditId).column == "In progress") {
         console.log("In progress");
-        editTodo(todoEditId, {
+        (0, _helpersJs.editTodo)(todoEditId, {
             text: (0, _declarationJs.inputDiscriptionTodoElement).value,
             title: (0, _declarationJs.inputTitleTodoElement).value,
-            userIndex: (0, _declarationJs.selectUserElement).selectedIndex
+            userIndex: userName
         });
         (0, _declarationJs.spaceProgressElement).innerHTML = ""; // Очистка колонки
         actualTodos.forEach((el)=>{
             if (el.column == "In progress") {
                 (0, _helpersJs.buildTemplateTodo)(el, (0, _declarationJs.spaceProgressElement));
-                addSelectListener(el, "In progress");
+                (0, _helpersJs.addSelectListener)(el, "In progress");
             }
         });
         (0, _declarationJs.modalWindowAddElement).classList.toggle("window-hide");
-        // counterTodoElement.textContent = actualTodos.length;
         (0, _declarationJs.formElement).reset();
         isEdit = false;
-    } else if (findTodo(todoEditId).column == "Done") {
+    } else if ((0, _helpersJs.findTodo)(todoEditId).column == "Done") {
         console.log("Done");
-        editTodo(todoEditId, {
+        (0, _helpersJs.editTodo)(todoEditId, {
             text: (0, _declarationJs.inputDiscriptionTodoElement).value,
             title: (0, _declarationJs.inputTitleTodoElement).value,
-            userIndex: (0, _declarationJs.selectUserElement).selectedIndex
+            userIndex: userName
         });
         (0, _declarationJs.spaceDoneElement).innerHTML = ""; // Очистка колонки
         actualTodos.forEach((el)=>{
             if (el.column == "Done") {
                 (0, _helpersJs.buildTemplateTodo)(el, (0, _declarationJs.spaceDoneElement));
-                addSelectListener(el, "Done");
+                (0, _helpersJs.addSelectListener)(el, "Done");
             }
         });
         (0, _declarationJs.modalWindowAddElement).classList.toggle("window-hide");
-        // counterTodoElement.textContent = actualTodos.length;
         (0, _declarationJs.formElement).reset();
         isEdit = false;
     }
@@ -861,7 +804,7 @@ const handleChangingTodoTask = function() {
     const buttonEditElement = event.target.closest(".todo-work__button_edit");
     const buttonDeleteElement = event.target.closest(".todo-work__button_delete");
     const idElement = event.target.closest(".todo-work")?.getAttribute("id");
-    const todo = findTodo(idElement);
+    const todo = (0, _helpersJs.findTodo)(idElement);
     if (buttonEditElement) {
         // Редактирование карточки
         isEdit = true;
@@ -872,7 +815,7 @@ const handleChangingTodoTask = function() {
     }
     if (buttonDeleteElement) {
         buttonDeleteElement.closest(".todo-work").remove();
-        deleteTodo(idElement);
+        (0, _helpersJs.deleteTodo)(idElement);
         (0, _helpersJs.actualCounter)();
     }
 };
@@ -894,7 +837,11 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "buildTemplateTodo", ()=>buildTemplateTodo);
 parcelHelpers.export(exports, "getActualTime", ()=>getActualTime);
 parcelHelpers.export(exports, "actualCounter", ()=>actualCounter);
-parcelHelpers.export(exports, "actualInProgressTodo", ()=>actualInProgressTodo);
+parcelHelpers.export(exports, "deleteTodo", ()=>deleteTodo);
+parcelHelpers.export(exports, "findTodo", ()=>findTodo);
+parcelHelpers.export(exports, "editTodo", ()=>editTodo);
+parcelHelpers.export(exports, "addSelectListener", ()=>addSelectListener);
+parcelHelpers.export(exports, "renderTodos", ()=>renderTodos);
 var _declarationJs = require("./declaration.js");
 var _storeJs = require("./store.js");
 function getActualTime() {
@@ -903,6 +850,7 @@ function getActualTime() {
   ${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate()}  `;
     return createdAt;
 }
+// Обновляемый счетчик в каждой колонке
 function actualCounter() {
     const actualTodos = (0, _storeJs.getTodos)();
     let count1 = 0;
@@ -925,7 +873,7 @@ function actualCounter() {
     });
 }
 const buildTemplateTodo = (todo, columnElement)=>{
-    const { id, text, title, createdAt, userIndex } = todo;
+    const { id, selectId, text, title, createdAt, userIndex } = todo;
     columnElement.insertAdjacentHTML("afterbegin", `<div class="todo-work" id="${id}">
         <p class="todo-work__title">Title: ${title}</p>
         <p class="todo-work__discription">Discription: ${text}</p>
@@ -934,7 +882,7 @@ const buildTemplateTodo = (todo, columnElement)=>{
         <div class="todo-work__buttons">
           <button type="button" class="btn btn-primary todo-work__button_edit btn-sm">EDIT</button>
           <button type="button" class="btn btn-primary btn-sm todo-work__button_enter">
-            <select name="" id="select-todo">
+            <select name="" id="${selectId}">
               <option value="Todo">Todo</option>
               <option value="In progress">In progress</option>
               <option value="Done">Done</option>
@@ -946,12 +894,95 @@ const buildTemplateTodo = (todo, columnElement)=>{
         </div>
     </div>`);
 };
+// Поиск нужного индекса в массиве, удаление из массива и сохранение
+function deleteTodo(id) {
+    const actualTodos = (0, _storeJs.getTodos)();
+    const indexTodo = actualTodos.findIndex((el)=>el.id == id);
+    actualTodos.splice(indexTodo, 1);
+    (0, _storeJs.setTodos)(actualTodos);
+}
+// Поиск нужного индекса в массиве
+function findTodo(id) {
+    const actualTodos = (0, _storeJs.getTodos)();
+    const indexTodo = actualTodos.findIndex((el)=>el.id == id);
+    return actualTodos[indexTodo];
+}
+// Поиск нужного индекса в массиве, изменение и сохранение
+function editTodo(id, newValue) {
+    const actualTodos = (0, _storeJs.getTodos)();
+    const indexTodo = actualTodos.findIndex((el)=>el.id == id);
+    actualTodos[indexTodo] = {
+        ...actualTodos[indexTodo],
+        ...newValue
+    };
+    (0, _storeJs.setTodos)(actualTodos);
+}
+// Ререндер заданий с помощью селекта
+function addSelectListener(el, selectValue = "Todo") {
+    const todoElement = document.getElementById(el.id);
+    const selectStageElement = document.getElementById(el.selectId);
+    selectStageElement.value = selectValue;
+    selectStageElement.addEventListener("change", function() {
+        switch(selectStageElement.value){
+            case "Todo":
+                todoElement.remove();
+                editTodo(el.id, {
+                    column: "Todo"
+                });
+                buildTemplateTodo(el, (0, _declarationJs.spaceTodoElement));
+                addSelectListener(el, selectStageElement.value);
+                actualCounter();
+                break;
+            case "In progress":
+                todoElement.remove();
+                editTodo(el.id, {
+                    column: "In progress"
+                });
+                buildTemplateTodo(el, (0, _declarationJs.spaceProgressElement));
+                addSelectListener(el, selectStageElement.value);
+                actualCounter();
+                break;
+            case "Done":
+                todoElement.remove();
+                editTodo(el.id, {
+                    column: "Done"
+                });
+                buildTemplateTodo(el, (0, _declarationJs.spaceDoneElement));
+                addSelectListener(el, selectStageElement.value);
+                actualCounter();
+                break;
+            default:
+                console.log("Sorry");
+        }
+    });
+}
+function renderTodos() {
+    // отрисовка todo из localStorage
+    const actualTodos = JSON.parse(localStorage.getItem((0, _declarationJs.todosKey)) || "[]");
+    actualTodos.forEach((el)=>{
+        if (el.column == "Done") {
+            buildTemplateTodo(el, (0, _declarationJs.spaceDoneElement));
+            addSelectListener(el, "Done");
+            actualCounter();
+        } else if (el.column == "In progress") {
+            buildTemplateTodo(el, (0, _declarationJs.spaceProgressElement));
+            addSelectListener(el, "In progress");
+            actualCounter();
+        } else if (el.column == "Todo") {
+            buildTemplateTodo(el, (0, _declarationJs.spaceTodoElement));
+            addSelectListener(el, "Todo");
+            actualCounter();
+        }
+    });
+    (0, _storeJs.setTodos)(actualTodos);
+}
 
 },{"./declaration.js":"3LNmn","./store.js":"9NZPX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"9NZPX":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "getTodos", ()=>getTodos);
 parcelHelpers.export(exports, "setTodos", ()=>setTodos);
+var _declarationJs = require("./declaration.js");
 let todos = [];
 function getTodos() {
     // Возвращаем акутальный массив
@@ -961,9 +992,9 @@ function setTodos(value) {
     // Обновление массива и запись в localStorage
     todos = value;
     window.todos = todos;
-//   localStorage.setItem(todosKey, JSON.stringify(todos));
+    localStorage.setItem((0, _declarationJs.todosKey), JSON.stringify(todos));
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["aP7aF","8lRBv"], "8lRBv", "parcelRequire503a")
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./declaration.js":"3LNmn"}]},["aP7aF","8lRBv"], "8lRBv", "parcelRequire503a")
 
 //# sourceMappingURL=index.59a40e7a.js.map

@@ -1,5 +1,4 @@
 import {
-  counterTodoElement,
   formElement,
   inputDiscriptionTodoElement,
   inputTitleTodoElement,
@@ -8,89 +7,37 @@ import {
   spaceTodoElement,
   spaceProgressElement,
   spaceDoneElement,
-  counterInProgressElement,
   modalWindowDeleteAllElement,
 } from './declaration.js';
 
-import {actualCounter, buildTemplateTodo, getActualTime} from './helpers.js';
+import {
+  actualCounter,
+  addSelectListener,
+  buildTemplateTodo,
+  deleteTodo,
+  editTodo,
+  findTodo,
+  getActualTime,
+} from './helpers.js';
 import {getTodos, setTodos} from './store.js';
 
 let isEdit = false;
 let todoEditId;
 
-// Поиск нужного индекса в массиве
-function findTodo(id) {
-  const actualTodos = getTodos();
-  const indexTodo = actualTodos.findIndex(el => el.id == id);
-  return actualTodos[indexTodo];
-}
-
-// Поиск нужного индекса в массиве, изменение и сохранение
-function editTodo(id, newValue) {
-  const actualTodos = getTodos();
-  const indexTodo = actualTodos.findIndex(el => el.id == id);
-  actualTodos[indexTodo] = {...actualTodos[indexTodo], ...newValue};
-  setTodos(actualTodos);
-}
-
-// Поиск нужного индекса в массиве, удаление из массива и сохранение
-function deleteTodo(id) {
-  const actualTodos = getTodos();
-  const indexTodo = actualTodos.findIndex(el => el.id == id);
-  actualTodos.splice(indexTodo, 1);
-  setTodos(actualTodos);
-}
-
 // Подтверждение TODO и отрисовка
 const handleMakeTodo = function () {
   const actualTodos = getTodos();
-
-  function addSelectListener(el, selectValue = 'Todo') {
-    const todoElement = document.getElementById(el.id);
-    const selectStageElement = todoElement.querySelector('#select-todo');
-    selectStageElement.value = selectValue;
-
-    selectStageElement.addEventListener('change', function () {
-      switch (selectStageElement.value) {
-        case 'Todo':
-          todoElement.remove();
-
-          editTodo(el.id, {column: 'Todo'});
-          buildTemplateTodo(el, spaceTodoElement);
-          addSelectListener(el, selectStageElement.value);
-          actualCounter();
-          break;
-        case 'In progress':
-          todoElement.remove();
-
-          editTodo(el.id, {column: 'In progress'});
-          buildTemplateTodo(el, spaceProgressElement);
-          addSelectListener(el, selectStageElement.value);
-          actualCounter();
-          break;
-        case 'Done':
-          todoElement.remove();
-
-          editTodo(el.id, {column: 'Done'});
-          buildTemplateTodo(el, spaceDoneElement);
-          addSelectListener(el, selectStageElement.value);
-          actualCounter();
-
-          break;
-        default:
-          console.log('Sorry');
-      }
-    });
-  }
+  const userName = selectUserElement.selectedIndex;
 
   if (!isEdit) {
     if (inputTitleTodoElement.value !== '' || inputDiscriptionTodoElement.value !== '') {
-      const newId = crypto.randomUUID();
+      const idTask = crypto.randomUUID();
+      const idSelect = crypto.randomUUID();
       const time = getActualTime();
-      const userName = selectUserElement.selectedIndex;
 
       function Todo() {
-        this.id = newId;
+        this.id = idTask;
+        this.selectId = idSelect;
         this.text = inputDiscriptionTodoElement.value;
         this.title = inputTitleTodoElement.value;
         this.createdAt = time;
@@ -117,7 +64,7 @@ const handleMakeTodo = function () {
     editTodo(todoEditId, {
       text: inputDiscriptionTodoElement.value,
       title: inputTitleTodoElement.value,
-      userIndex: selectUserElement.selectedIndex,
+      userIndex: userName,
     });
 
     spaceTodoElement.innerHTML = ''; // Очистка колонки
@@ -131,7 +78,6 @@ const handleMakeTodo = function () {
 
     modalWindowAddElement.classList.toggle('window-hide');
 
-    // counterTodoElement.textContent = actualTodos.length;
     formElement.reset();
     isEdit = false;
   } else if (findTodo(todoEditId).column == 'In progress') {
@@ -140,7 +86,7 @@ const handleMakeTodo = function () {
     editTodo(todoEditId, {
       text: inputDiscriptionTodoElement.value,
       title: inputTitleTodoElement.value,
-      userIndex: selectUserElement.selectedIndex,
+      userIndex: userName,
     });
 
     spaceProgressElement.innerHTML = ''; // Очистка колонки
@@ -154,7 +100,6 @@ const handleMakeTodo = function () {
 
     modalWindowAddElement.classList.toggle('window-hide');
 
-    // counterTodoElement.textContent = actualTodos.length;
     formElement.reset();
     isEdit = false;
   } else if (findTodo(todoEditId).column == 'Done') {
@@ -163,7 +108,7 @@ const handleMakeTodo = function () {
     editTodo(todoEditId, {
       text: inputDiscriptionTodoElement.value,
       title: inputTitleTodoElement.value,
-      userIndex: selectUserElement.selectedIndex,
+      userIndex: userName,
     });
 
     spaceDoneElement.innerHTML = ''; // Очистка колонки
@@ -177,7 +122,6 @@ const handleMakeTodo = function () {
 
     modalWindowAddElement.classList.toggle('window-hide');
 
-    // counterTodoElement.textContent = actualTodos.length;
     formElement.reset();
     isEdit = false;
   }

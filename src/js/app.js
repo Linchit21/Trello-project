@@ -19,6 +19,7 @@ import {
   handleMakeTodo,
   handleDeleteAllTask,
 } from './handlers.js';
+import {actualCounter, renderTodos} from './helpers.js';
 
 // Модальное окно вкл и выкл, кнопка add
 buttonAddTodoElement.addEventListener('click', function () {
@@ -72,3 +73,6 @@ window.onload = function () {
     document.getElementById('hours').innerHTML = (hours < 10 ? '0' : '') + hours;
   }, 1000);
 };
+
+renderTodos();
+actualCounter();

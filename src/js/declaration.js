@@ -26,6 +26,8 @@ const spaceTodoElement = document.querySelector('#workspace-task');
 const spaceProgressElement = document.querySelector('#workspace-progress');
 const spaceDoneElement = document.querySelector('#workspace-done');
 
+const todosKey = 'todos';
+
 export {
   buttonAddTodoElement,
   modalWindowAddElement,
@@ -48,4 +50,5 @@ export {
   modalWindowDeleteAllElement,
   buttonDeleteAllConfirmElement,
   buttonDeleteAllCancelElement,
+  todosKey,
 };
