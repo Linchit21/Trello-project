@@ -21,6 +21,7 @@ import {
   findTodo,
   getActualTime,
 } from './helpers.js';
+
 import {getTodos, setTodos} from './store.js';
 
 let isEdit = false;
@@ -28,7 +29,7 @@ let todoEditId;
 
 // Добавление задания кнопка плюс
 function handleAddNewTask() {
-  if (counterInProgressElement.textContent != 1) {
+  if (counterInProgressElement.textContent != 6) {
     modalWindowAddElement.classList.toggle('window-hide');
   } else {
     modalWindowWarningElement.classList.toggle('window-hide');
@@ -69,15 +70,12 @@ const handleMakeTodo = function () {
 
       buildTemplateTodo(todo, spaceTodoElement);
       addSelectListener(todo);
-
       actualCounter();
       setTodos(actualTodos);
+
       formElement.reset();
-      console.log(actualTodos);
     }
   } else if (findTodo(todoEditId).column == 'Todo') {
-    console.log('Todo');
-
     editTodo(todoEditId, {
       text: inputDiscriptionTodoElement.value,
       title: inputTitleTodoElement.value,
@@ -98,8 +96,6 @@ const handleMakeTodo = function () {
     formElement.reset();
     isEdit = false;
   } else if (findTodo(todoEditId).column == 'In progress') {
-    console.log('In progress');
-
     editTodo(todoEditId, {
       text: inputDiscriptionTodoElement.value,
       title: inputTitleTodoElement.value,
@@ -120,8 +116,6 @@ const handleMakeTodo = function () {
     formElement.reset();
     isEdit = false;
   } else if (findTodo(todoEditId).column == 'Done') {
-    console.log('Done');
-
     editTodo(todoEditId, {
       text: inputDiscriptionTodoElement.value,
       title: inputTitleTodoElement.value,
@@ -187,6 +181,7 @@ const handleDeleteAllTask = function () {
   modalWindowDeleteAllElement.classList.toggle('window-hide');
 };
 
+// Ок, на модальное окно лимита
 const handleHideWarningWindow = function () {
   modalWindowWarningElement.classList.toggle('window-hide');
 };

@@ -95,7 +95,7 @@
   border-radius: 30px;
   flex-direction: column;
   width: 350px;
-  height: 800px;
+  height: 700px;
   padding: 20px;
   display: flex;
   position: relative;
@@ -126,13 +126,7 @@
   font-size: 20px;
 }
 
-.todo-work__title {
-  justify-content: space-between;
-  gap: 25px;
-  display: flex;
-}
-
-.todo-work__discription, .todo-work__time, .todo-work__user {
+.todo-work__title, .todo-work__discription, .todo-work__time, .todo-work__user {
   justify-content: space-between;
   display: flex;
 }
@@ -173,8 +167,9 @@
   border-radius: 20px;
   flex-direction: column;
   gap: 20px;
-  max-width: 440px;
+  width: 400px;
   padding: 50px;
+  font-size: 20px;
   display: flex;
   position: absolute;
   top: 50%;
@@ -183,7 +178,14 @@
 }
 
 .modals__title {
+  height: 50px;
   margin-top: 20px;
+  padding: 5px;
+}
+
+.modals__buttons {
+  justify-content: space-between;
+  display: flex;
 }
 
 .window-hide {

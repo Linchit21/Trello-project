@@ -730,7 +730,7 @@ let isEdit = false;
 let todoEditId;
 // Добавление задания кнопка плюс
 function handleAddNewTask() {
-    if ((0, _declarationJs.counterInProgressElement).textContent != 1) (0, _declarationJs.modalWindowAddElement).classList.toggle("window-hide");
+    if ((0, _declarationJs.counterInProgressElement).textContent != 6) (0, _declarationJs.modalWindowAddElement).classList.toggle("window-hide");
     else (0, _declarationJs.modalWindowWarningElement).classList.toggle("window-hide");
 }
 // Кнопка отмены в модальном окне на добавление дел
@@ -764,10 +764,8 @@ const handleMakeTodo = function() {
             (0, _helpersJs.actualCounter)();
             (0, _storeJs.setTodos)(actualTodos);
             (0, _declarationJs.formElement).reset();
-            console.log(actualTodos);
         }
     } else if ((0, _helpersJs.findTodo)(todoEditId).column == "Todo") {
-        console.log("Todo");
         (0, _helpersJs.editTodo)(todoEditId, {
             text: (0, _declarationJs.inputDiscriptionTodoElement).value,
             title: (0, _declarationJs.inputTitleTodoElement).value,
@@ -784,7 +782,6 @@ const handleMakeTodo = function() {
         (0, _declarationJs.formElement).reset();
         isEdit = false;
     } else if ((0, _helpersJs.findTodo)(todoEditId).column == "In progress") {
-        console.log("In progress");
         (0, _helpersJs.editTodo)(todoEditId, {
             text: (0, _declarationJs.inputDiscriptionTodoElement).value,
             title: (0, _declarationJs.inputTitleTodoElement).value,
@@ -801,7 +798,6 @@ const handleMakeTodo = function() {
         (0, _declarationJs.formElement).reset();
         isEdit = false;
     } else if ((0, _helpersJs.findTodo)(todoEditId).column == "Done") {
-        console.log("Done");
         (0, _helpersJs.editTodo)(todoEditId, {
             text: (0, _declarationJs.inputDiscriptionTodoElement).value,
             title: (0, _declarationJs.inputTitleTodoElement).value,
@@ -853,6 +849,7 @@ const handleDeleteAllTask = function() {
     (0, _helpersJs.actualCounter)();
     (0, _declarationJs.modalWindowDeleteAllElement).classList.toggle("window-hide");
 };
+// Ок, на модальное окно лимита
 const handleHideWarningWindow = function() {
     (0, _declarationJs.modalWindowWarningElement).classList.toggle("window-hide");
 };

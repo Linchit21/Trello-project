@@ -71,7 +71,7 @@
 
 .todo {
   width: 350px;
-  height: 800px;
+  height: 700px;
   border: 2px solid black;
   border-radius: 30px;
   padding: 20px;
@@ -107,7 +107,6 @@
   &__title {
     display: flex;
     justify-content: space-between;
-    gap: 25px;
   }
 
   &__discription {
@@ -157,7 +156,7 @@
 }
 
 .modals {
-  max-width: 440px;
+  width: 400px;
   background-color: rgb(212, 218, 176);
   padding: 50px;
   display: flex;
@@ -169,9 +168,17 @@
   transform: translate(-50%, -50%);
   border: 2px solid black;
   border-radius: 20px;
+  font-size: 20px;
 
   &__title {
     margin-top: 20px;
+    height: 50px;
+    padding: 5px;
+  }
+
+  &__buttons {
+    display: flex;
+    justify-content: space-between;
   }
 }
 

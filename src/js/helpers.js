@@ -2,12 +2,12 @@ import {
   counterDoneElement,
   counterInProgressElement,
   counterTodoElement,
-  selectUserElement,
   spaceDoneElement,
   spaceProgressElement,
   spaceTodoElement,
   todosKey,
 } from './declaration.js';
+
 import {getTodos, setTodos} from './store.js';
 
 function getActualTime() {
