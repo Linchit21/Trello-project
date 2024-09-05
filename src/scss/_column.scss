@@ -1,26 +1,15 @@
-$column-color: rgb(121, 150, 128);
-$todo-task: rgb(154, 223, 154);
-$header-title: rgb(176, 176, 227);
-$todo-header: rgb(140, 226, 114);
-$body: rgb(69, 121, 138);
+$task-column-color: rgb(210, 233, 216);
+$inprogress-column-color: rgb(194, 218, 42);
+$done-column-color: rgb(110, 236, 110);
 
-.item {
-  background-color: $column-color;
+#task {
+  background-color: $task-column-color;
 }
 
-.todo-work {
-  background-color: $todo-task;
+#in-progress {
+  background-color: $inprogress-column-color;
 }
 
-.container {
-  background-color: $header-title;
-}
-
-.todo-header {
-  background-color: $todo-header;
-}
-
-#body {
-  background-color: $body;
-  background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbnf07KsWfvsc1URmLE_-oK04Y0NxLOx2gjg&s);
+#done {
+  background-color: $done-column-color;
 }
