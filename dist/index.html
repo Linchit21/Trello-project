@@ -90,15 +90,19 @@
         <form class="modals">
           <input type="text" class="modals__title" placeholder="Title" id="todo-title">
           <textarea name="" id="todo-discription" class="modals__discription" placeholder="Discription"></textarea>
-          <select name="" id="users" class="modals__select">
-            <option value="John">John</option>
-            <option value="Kate">Kate</option>
-            <option value="Uma">Uma</option>
-            <option value="Mick">Mick</option>
-          </select>
           <div>
-            <button type="button" class="modals__confirm" id="add-confirm">Confirm</button>
-            <button type="button" class="modals__cancel" id="cancel">Cancel</button>
+            <button type="button" class="modals__confirm btn btn-primary btn-sm" id="add-confirm">
+              Confirm
+            </button>
+            <select name="" id="users" class="form-select-sm">
+              <option value="John">John</option>
+              <option value="Kate">Kate</option>
+              <option value="Uma">Uma</option>
+              <option value="Mick">Mick</option>
+            </select>
+            <button type="button" class="modals__cancel btn btn-danger btn-sm" id="cancel">
+              Cancel
+            </button>
           </div>
         </form>
       </div>

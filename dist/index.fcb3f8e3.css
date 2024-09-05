@@ -37,20 +37,6 @@
   margin-top: 50px;
 }
 
-.todo-header__img {
-  margin: 0;
-}
-
-.container__button {
-  background: none;
-  border: 0;
-  transition: scale .5s;
-}
-
-.container__button:hover {
-  scale: 1.5;
-}
-
 .container {
   border: 2px solid #000;
   border-radius: 50px;
@@ -85,6 +71,16 @@
   animation: 1s infinite myfade;
 }
 
+.container__button {
+  background: none;
+  border: 0;
+  transition: scale .5s;
+}
+
+.container__button:hover {
+  scale: 1.5;
+}
+
 .todo-blocks {
   text-align: center;
   justify-content: space-between;
@@ -102,7 +98,11 @@
   height: 1000px;
   padding: 20px;
   display: flex;
-  overflow: hidden;
+  overflow-y: scroll;
+}
+
+.todo::-webkit-scrollbar {
+  width: 0;
 }
 
 .todo-header {
@@ -114,6 +114,12 @@
   padding: 10px;
   font-size: 20px;
   display: flex;
+  position: sticky;
+  top: -20px;
+}
+
+.todo-header__img {
+  margin: 0;
 }
 
 .todo-work {
@@ -132,7 +138,6 @@
 
 .todo-work__discription, .todo-work__time, .todo-work__user {
   justify-content: space-between;
-  margin-top: 20px;
   display: flex;
 }
 
