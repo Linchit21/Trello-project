@@ -9,6 +9,7 @@ import {
   spaceDoneElement,
   modalWindowDeleteAllElement,
   counterInProgressElement,
+  modalWindowWarningElement,
 } from './declaration.js';
 
 import {
@@ -27,10 +28,10 @@ let todoEditId;
 
 // Добавление задания кнопка плюс
 function handleAddNewTask() {
-  if (counterInProgressElement.textContent != 2) {
+  if (counterInProgressElement.textContent != 1) {
     modalWindowAddElement.classList.toggle('window-hide');
   } else {
-    alert('Превышенно максимальное количество дел!!!!!!');
+    modalWindowWarningElement.classList.toggle('window-hide');
   }
 }
 
@@ -43,7 +44,7 @@ function handleCancelModalAdd() {
 // Подтверждение TODO и отрисовка
 const handleMakeTodo = function () {
   const actualTodos = getTodos();
-  const userName = selectUserElement.selectedIndex;
+  const userName = selectUserElement.value;
 
   if (!isEdit) {
     if (inputTitleTodoElement.value !== '' || inputDiscriptionTodoElement.value !== '') {
@@ -80,7 +81,7 @@ const handleMakeTodo = function () {
     editTodo(todoEditId, {
       text: inputDiscriptionTodoElement.value,
       title: inputTitleTodoElement.value,
-      userIndex: userName,
+      userIndex: selectUserElement.value,
     });
 
     spaceTodoElement.innerHTML = ''; // Очистка колонки
@@ -102,7 +103,7 @@ const handleMakeTodo = function () {
     editTodo(todoEditId, {
       text: inputDiscriptionTodoElement.value,
       title: inputTitleTodoElement.value,
-      userIndex: userName,
+      userIndex: selectUserElement.value,
     });
 
     spaceProgressElement.innerHTML = ''; // Очистка колонки
@@ -124,7 +125,7 @@ const handleMakeTodo = function () {
     editTodo(todoEditId, {
       text: inputDiscriptionTodoElement.value,
       title: inputTitleTodoElement.value,
-      userIndex: userName,
+      userIndex: selectUserElement.value,
     });
 
     spaceDoneElement.innerHTML = ''; // Очистка колонки
@@ -158,6 +159,7 @@ const handleChangingTodoTask = function () {
 
     inputTitleTodoElement.value = todo.title;
     inputDiscriptionTodoElement.value = todo.text;
+    selectUserElement.value = todo.userIndex;
 
     modalWindowAddElement.classList.toggle('window-hide');
   }
@@ -169,10 +171,12 @@ const handleChangingTodoTask = function () {
   }
 };
 
+// Вызов модального окна
 const handleCallModalDelete = function () {
   modalWindowDeleteAllElement.classList.toggle('window-hide');
 };
 
+// Удаление всех дел в колонке Done
 const handleDeleteAllTask = function () {
   const actualTodos = getTodos();
   spaceDoneElement.innerHTML = '';
@@ -183,6 +187,10 @@ const handleDeleteAllTask = function () {
   modalWindowDeleteAllElement.classList.toggle('window-hide');
 };
 
+const handleHideWarningWindow = function () {
+  modalWindowWarningElement.classList.toggle('window-hide');
+};
+
 export {
   handleChangingTodoTask,
   handleMakeTodo,
@@ -190,4 +198,5 @@ export {
   handleDeleteAllTask,
   handleAddNewTask,
   handleCancelModalAdd,
+  handleHideWarningWindow,
 };

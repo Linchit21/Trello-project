@@ -602,11 +602,11 @@ var _helpersJs = require("./helpers.js");
 // Вызов модальное окна на удаление
 (0, _declarationJs.buttonDeleteAllElement).addEventListener("click", (0, _handlersJs.handleCallModalDelete));
 // Отмена удаление дел
-(0, _declarationJs.buttonDeleteAllCancelElement).addEventListener("click", function() {
-    (0, _declarationJs.modalWindowDeleteAllElement).classList.toggle("window-hide");
-});
+(0, _declarationJs.buttonDeleteAllCancelElement).addEventListener("click", (0, _handlersJs.handleCallModalDelete));
 // Подтверждение удаления всех дел
 (0, _declarationJs.buttonDeleteAllConfirmElement).addEventListener("click", (0, _handlersJs.handleDeleteAllTask));
+// Подтверждение на модальное окно, лимит
+(0, _declarationJs.buttonWarningOkElement).addEventListener("click", (0, _handlersJs.handleHideWarningWindow));
 (0, _helpersJs.renderTodos)();
 (0, _helpersJs.actualCounter)();
 window.onload = function() {
@@ -649,8 +649,11 @@ parcelHelpers.export(exports, "modalWindowDeleteAllElement", ()=>modalWindowDele
 parcelHelpers.export(exports, "buttonDeleteAllConfirmElement", ()=>buttonDeleteAllConfirmElement);
 parcelHelpers.export(exports, "buttonDeleteAllCancelElement", ()=>buttonDeleteAllCancelElement);
 parcelHelpers.export(exports, "todosKey", ()=>todosKey);
+parcelHelpers.export(exports, "modalWindowWarningElement", ()=>modalWindowWarningElement);
+parcelHelpers.export(exports, "buttonWarningOkElement", ()=>buttonWarningOkElement);
 const modalWindowAddElement = document.querySelector("#window-add");
 const modalWindowDeleteAllElement = document.querySelector("#window-delete");
+const modalWindowWarningElement = document.querySelector("#window-warning");
 const formElement = document.querySelector(".modals");
 // Кнопки
 const buttonAddTodoElement = document.querySelector("#add-todo");
@@ -659,6 +662,7 @@ const buttonCancelTodoElement = document.querySelector("#cancel");
 const buttonDeleteAllElement = document.querySelector(".todo-work__button_delete-all");
 const buttonDeleteAllConfirmElement = document.querySelector(".button-delete-all-confirm");
 const buttonDeleteAllCancelElement = document.querySelector(".button-delete-all-cancel");
+const buttonWarningOkElement = document.querySelector(".button-ok");
 // Поле ввода
 const inputTitleTodoElement = document.querySelector("#todo-title");
 const inputDiscriptionTodoElement = document.querySelector("#todo-discription");
@@ -718,6 +722,7 @@ parcelHelpers.export(exports, "handleCallModalDelete", ()=>handleCallModalDelete
 parcelHelpers.export(exports, "handleDeleteAllTask", ()=>handleDeleteAllTask);
 parcelHelpers.export(exports, "handleAddNewTask", ()=>handleAddNewTask);
 parcelHelpers.export(exports, "handleCancelModalAdd", ()=>handleCancelModalAdd);
+parcelHelpers.export(exports, "handleHideWarningWindow", ()=>handleHideWarningWindow);
 var _declarationJs = require("./declaration.js");
 var _helpersJs = require("./helpers.js");
 var _storeJs = require("./store.js");
@@ -725,8 +730,8 @@ let isEdit = false;
 let todoEditId;
 // Добавление задания кнопка плюс
 function handleAddNewTask() {
-    if ((0, _declarationJs.counterInProgressElement).textContent != 2) (0, _declarationJs.modalWindowAddElement).classList.toggle("window-hide");
-    else alert("\u041F\u0440\u0435\u0432\u044B\u0448\u0435\u043D\u043D\u043E \u043C\u0430\u043A\u0441\u0438\u043C\u0430\u043B\u044C\u043D\u043E\u0435 \u043A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E \u0434\u0435\u043B!!!!!!");
+    if ((0, _declarationJs.counterInProgressElement).textContent != 1) (0, _declarationJs.modalWindowAddElement).classList.toggle("window-hide");
+    else (0, _declarationJs.modalWindowWarningElement).classList.toggle("window-hide");
 }
 // Кнопка отмены в модальном окне на добавление дел
 function handleCancelModalAdd() {
@@ -736,7 +741,7 @@ function handleCancelModalAdd() {
 // Подтверждение TODO и отрисовка
 const handleMakeTodo = function() {
     const actualTodos = (0, _storeJs.getTodos)();
-    const userName = (0, _declarationJs.selectUserElement).selectedIndex;
+    const userName = (0, _declarationJs.selectUserElement).value;
     if (!isEdit) {
         if ((0, _declarationJs.inputTitleTodoElement).value !== "" || (0, _declarationJs.inputDiscriptionTodoElement).value !== "") {
             const idTask = crypto.randomUUID();
@@ -766,7 +771,7 @@ const handleMakeTodo = function() {
         (0, _helpersJs.editTodo)(todoEditId, {
             text: (0, _declarationJs.inputDiscriptionTodoElement).value,
             title: (0, _declarationJs.inputTitleTodoElement).value,
-            userIndex: userName
+            userIndex: (0, _declarationJs.selectUserElement).value
         });
         (0, _declarationJs.spaceTodoElement).innerHTML = ""; // Очистка колонки
         actualTodos.forEach((el)=>{
@@ -783,7 +788,7 @@ const handleMakeTodo = function() {
         (0, _helpersJs.editTodo)(todoEditId, {
             text: (0, _declarationJs.inputDiscriptionTodoElement).value,
             title: (0, _declarationJs.inputTitleTodoElement).value,
-            userIndex: userName
+            userIndex: (0, _declarationJs.selectUserElement).value
         });
         (0, _declarationJs.spaceProgressElement).innerHTML = ""; // Очистка колонки
         actualTodos.forEach((el)=>{
@@ -800,7 +805,7 @@ const handleMakeTodo = function() {
         (0, _helpersJs.editTodo)(todoEditId, {
             text: (0, _declarationJs.inputDiscriptionTodoElement).value,
             title: (0, _declarationJs.inputTitleTodoElement).value,
-            userIndex: userName
+            userIndex: (0, _declarationJs.selectUserElement).value
         });
         (0, _declarationJs.spaceDoneElement).innerHTML = ""; // Очистка колонки
         actualTodos.forEach((el)=>{
@@ -826,6 +831,7 @@ const handleChangingTodoTask = function() {
         todoEditId = idElement;
         (0, _declarationJs.inputTitleTodoElement).value = todo.title;
         (0, _declarationJs.inputDiscriptionTodoElement).value = todo.text;
+        (0, _declarationJs.selectUserElement).value = todo.userIndex;
         (0, _declarationJs.modalWindowAddElement).classList.toggle("window-hide");
     }
     if (buttonDeleteElement) {
@@ -834,9 +840,11 @@ const handleChangingTodoTask = function() {
         (0, _helpersJs.actualCounter)();
     }
 };
+// Вызов модального окна
 const handleCallModalDelete = function() {
     (0, _declarationJs.modalWindowDeleteAllElement).classList.toggle("window-hide");
 };
+// Удаление всех дел в колонке Done
 const handleDeleteAllTask = function() {
     const actualTodos = (0, _storeJs.getTodos)();
     (0, _declarationJs.spaceDoneElement).innerHTML = "";
@@ -844,6 +852,9 @@ const handleDeleteAllTask = function() {
     (0, _storeJs.setTodos)(newArray);
     (0, _helpersJs.actualCounter)();
     (0, _declarationJs.modalWindowDeleteAllElement).classList.toggle("window-hide");
+};
+const handleHideWarningWindow = function() {
+    (0, _declarationJs.modalWindowWarningElement).classList.toggle("window-hide");
 };
 
 },{"./declaration.js":"3LNmn","./helpers.js":"hGI1E","./store.js":"9NZPX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"hGI1E":[function(require,module,exports) {
@@ -901,7 +912,7 @@ const buildTemplateTodo = (todo, columnElement)=>{
         </div>
         <div class="todo-work__user">
           <p>User:</p>
-          <p>${(0, _declarationJs.selectUserElement).options[userIndex].value}</p>
+          <p>${userIndex}</p>
         </div>
          <div class="todo-work__time">
           <p>Time:</p>

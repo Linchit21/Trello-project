@@ -5,6 +5,7 @@ import {
   buttonDeleteAllCancelElement,
   buttonDeleteAllConfirmElement,
   buttonDeleteAllElement,
+  buttonWarningOkElement,
   modalWindowDeleteAllElement,
   todoBlockElement,
   todoDoneElement,
@@ -18,6 +19,7 @@ import {
   handleDeleteAllTask,
   handleCancelModalAdd,
   handleAddNewTask,
+  handleHideWarningWindow,
 } from './handlers.js';
 
 import {actualCounter, renderTodos} from './helpers.js';
@@ -44,12 +46,13 @@ todoDoneElement.addEventListener('click', handleChangingTodoTask);
 buttonDeleteAllElement.addEventListener('click', handleCallModalDelete);
 
 // Отмена удаление дел
-buttonDeleteAllCancelElement.addEventListener('click', function () {
-  modalWindowDeleteAllElement.classList.toggle('window-hide');
-});
+buttonDeleteAllCancelElement.addEventListener('click', handleCallModalDelete);
 
 // Подтверждение удаления всех дел
 buttonDeleteAllConfirmElement.addEventListener('click', handleDeleteAllTask);
+
+// Подтверждение на модальное окно, лимит
+buttonWarningOkElement.addEventListener('click', handleHideWarningWindow);
 
 renderTodos();
 actualCounter();

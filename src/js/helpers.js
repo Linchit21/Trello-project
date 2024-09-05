@@ -58,7 +58,7 @@ const buildTemplateTodo = (todo, columnElement) => {
         </div>
         <div class="todo-work__user">
           <p>User:</p>
-          <p>${selectUserElement.options[userIndex].value}</p>
+          <p>${userIndex}</p>
         </div>
          <div class="todo-work__time">
           <p>Time:</p>

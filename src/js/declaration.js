@@ -1,6 +1,7 @@
 // Модальные окна
 const modalWindowAddElement = document.querySelector('#window-add');
 const modalWindowDeleteAllElement = document.querySelector('#window-delete');
+const modalWindowWarningElement = document.querySelector('#window-warning');
 const formElement = document.querySelector('.modals');
 
 // Кнопки
@@ -10,6 +11,7 @@ const buttonCancelTodoElement = document.querySelector('#cancel');
 const buttonDeleteAllElement = document.querySelector('.todo-work__button_delete-all');
 const buttonDeleteAllConfirmElement = document.querySelector('.button-delete-all-confirm');
 const buttonDeleteAllCancelElement = document.querySelector('.button-delete-all-cancel');
+const buttonWarningOkElement = document.querySelector('.button-ok');
 
 // Поле ввода
 const inputTitleTodoElement = document.querySelector('#todo-title');
@@ -59,4 +61,6 @@ export {
   buttonDeleteAllConfirmElement,
   buttonDeleteAllCancelElement,
   todosKey,
+  modalWindowWarningElement,
+  buttonWarningOkElement,
 };

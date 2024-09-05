@@ -95,14 +95,10 @@
   border-radius: 30px;
   flex-direction: column;
   width: 350px;
-  height: 1000px;
+  height: 800px;
   padding: 20px;
   display: flex;
-  overflow-y: scroll;
-}
-
-.todo::-webkit-scrollbar {
-  width: 0;
+  position: relative;
 }
 
 .todo-header {
@@ -153,6 +149,11 @@
 .todo-work__space {
   height: 1000px;
   padding: 5px;
+  overflow-y: scroll;
+}
+
+.todo-work__space::-webkit-scrollbar {
+  width: 0;
 }
 
 .todo-work__buttons {
@@ -162,7 +163,8 @@
 }
 
 .todo-work__button_delete-all {
-  bottom: 100%;
+  position: sticky;
+  bottom: 20px;
 }
 
 .modals {
