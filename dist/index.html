@@ -55,25 +55,33 @@
       <div class="todo-blocks">
         <div class="todo item" id="task">
           <div class="todo-header">
-            <p class="todo-header__text">TODO:</p>
+            <p class="todo-header__img">
+              <img width="48" height="48" src="https://img.icons8.com/dusk/64/task.png" alt="task">
+            </p>
             <div class="todo-header__number" id="count-tasks"></div>
           </div>
           <div class="todo-work__space" id="workspace-task"></div>
         </div>
         <div class="todo item" id="in-progress">
           <div class="todo-header">
-            <p class="todo-header__text">IN PROGRESS:</p>
+            <div class="todo-header__img">
+              <img width="48" height="48" src="https://img.icons8.com/pulsar-color/48/in-progress.png" alt="in-progress">
+            </div>
             <div class="todo-header__number" id="count-in-progress"></div>
           </div>
           <div class="todo-work__space" id="workspace-progress"></div>
         </div>
         <div class="todo item" id="done">
           <div class="todo-header">
-            <p class="todo-header__text">Done:</p>
+            <div class="todo-header__img">
+              <img width="48" height="48" src="https://img.icons8.com/pulsar-color/48/task-completed.png" alt="task-completed">
+            </div>
             <div class="todo-header__number" id="count-done"></div>
           </div>
           <div class="todo-work__space" id="workspace-done"></div>
-          <button type="button" class="todo-work__button_delete-all">Delet all</button>
+          <button type="button" class="btn btn-danger todo-work__button_delete-all">
+            Delete all
+          </button>
         </div>
       </div>
       <div id="window-add" class="window-hide">

@@ -12,8 +12,9 @@ import {getTodos, setTodos} from './store.js';
 
 function getActualTime() {
   const date = new Date(); // Data
-  const createdAt = `${date.getHours()}:${date.getMinutes()}
-  ${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate()}  `;
+  const minutes = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
+  const seconds = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds();
+  const createdAt = `${date.getHours()}:${minutes}:${seconds}`;
   return createdAt;
 }
 
@@ -47,20 +48,30 @@ const buildTemplateTodo = (todo, columnElement) => {
   columnElement.insertAdjacentHTML(
     'afterbegin',
     `<div class="todo-work" id="${id}">
-        <p class="todo-work__title">Title: ${title}</p>
-        <p class="todo-work__discription">Discription: ${text}</p>
-        <p>${selectUserElement.options[userIndex].value}</p>
-        <p>${createdAt}</p>
+        <div class="todo-work__title">
+          <p>Title:</p>
+          <p>${title}</p>
+        </div>
+        <div class="todo-work__discription">
+          <p>Discription:</p>
+          <p>${text}</p>
+        </div>
+        <div class="todo-work__user">
+          <p>User:</p>
+          <p>${selectUserElement.options[userIndex].value}</p>
+        </div>
+         <div class="todo-work__time">
+          <p>Time:</p>
+          <p>${createdAt}</p>
+        </div>
         <div class="todo-work__buttons">
           <button type="button" class="btn btn-primary todo-work__button_edit btn-sm">EDIT</button>
-          <button type="button" class="btn btn-primary btn-sm todo-work__button_enter">
-            <select name="" id="${selectId}">
-              <option value="Todo">Todo</option>
-              <option value="In progress">In progress</option>
-              <option value="Done">Done</option>
-            </select>
-          </button>
-          <button type="button" class="btn btn-primary todo-work__button_delete btn-sm">
+          <select class="form-select-sm" name="" id="${selectId}">
+            <option value="Todo">Todo</option>
+            <option value="In progress">In progress</option>
+            <option value="Done">Done</option>
+          </select>          
+          <button type="button" class="btn btn-danger todo-work__button_delete btn-sm">
             DELETE
           </button>
         </div>

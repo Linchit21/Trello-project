@@ -8,6 +8,7 @@ import {
   spaceProgressElement,
   spaceDoneElement,
   modalWindowDeleteAllElement,
+  counterInProgressElement,
 } from './declaration.js';
 
 import {
@@ -23,6 +24,21 @@ import {getTodos, setTodos} from './store.js';
 
 let isEdit = false;
 let todoEditId;
+
+// Добавление задания кнопка плюс
+function handleAddNewTask() {
+  if (counterInProgressElement.textContent != 2) {
+    modalWindowAddElement.classList.toggle('window-hide');
+  } else {
+    alert('Превышенно максимальное количество дел!!!!!!');
+  }
+}
+
+// Кнопка отмены в модальном окне на добавление дел
+function handleCancelModalAdd() {
+  modalWindowAddElement.classList.toggle('window-hide');
+  formElement.reset();
+}
 
 // Подтверждение TODO и отрисовка
 const handleMakeTodo = function () {
@@ -167,4 +183,11 @@ const handleDeleteAllTask = function () {
   modalWindowDeleteAllElement.classList.toggle('window-hide');
 };
 
-export {handleChangingTodoTask, handleMakeTodo, handleCallModalDelete, handleDeleteAllTask};
+export {
+  handleChangingTodoTask,
+  handleMakeTodo,
+  handleCallModalDelete,
+  handleDeleteAllTask,
+  handleAddNewTask,
+  handleCancelModalAdd,
+};

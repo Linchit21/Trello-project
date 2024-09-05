@@ -1,0 +1,26 @@
+$column-color: rgb(121, 150, 128);
+$todo-task: rgb(154, 223, 154);
+$header-title: rgb(176, 176, 227);
+$todo-header: rgb(140, 226, 114);
+$body: rgb(69, 121, 138);
+
+.item {
+  background-color: $column-color;
+}
+
+.todo-work {
+  background-color: $todo-task;
+}
+
+.container {
+  background-color: $header-title;
+}
+
+.todo-header {
+  background-color: $todo-header;
+}
+
+#body {
+  background-color: $body;
+  background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbnf07KsWfvsc1URmLE_-oK04Y0NxLOx2gjg&s);
+}

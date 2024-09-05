@@ -5,36 +5,28 @@ import {
   buttonDeleteAllCancelElement,
   buttonDeleteAllConfirmElement,
   buttonDeleteAllElement,
-  counterInProgressElement,
-  formElement,
-  modalWindowAddElement,
   modalWindowDeleteAllElement,
   todoBlockElement,
   todoDoneElement,
   todoInProgressElement,
 } from './declaration.js';
+
 import {
   handleChangingTodoTask,
   handleCallModalDelete,
   handleMakeTodo,
   handleDeleteAllTask,
+  handleCancelModalAdd,
+  handleAddNewTask,
 } from './handlers.js';
+
 import {actualCounter, renderTodos} from './helpers.js';
 
-// Модальное окно вкл и выкл, кнопка add
-buttonAddTodoElement.addEventListener('click', function () {
-  if (counterInProgressElement.textContent != 2) {
-    modalWindowAddElement.classList.toggle('window-hide');
-  } else {
-    alert('Превышенно максимальное количество дел!!!!!!');
-  }
-});
+// Модальное окно вкл и выкл, кнопка (иконка плюса)
+buttonAddTodoElement.addEventListener('click', handleAddNewTask);
 
 // Спрятать модальное окно и сделать ресет формы, кнопка cancel в модалке
-buttonCancelTodoElement.addEventListener('click', function () {
-  modalWindowAddElement.classList.toggle('window-hide');
-  formElement.reset();
-});
+buttonCancelTodoElement.addEventListener('click', handleCancelModalAdd);
 
 // Подтверждение и рендеринг TODO, кнопка confirm
 buttonConfirmTodoElement.addEventListener('click', handleMakeTodo);
@@ -56,8 +48,11 @@ buttonDeleteAllCancelElement.addEventListener('click', function () {
   modalWindowDeleteAllElement.classList.toggle('window-hide');
 });
 
+// Подтверждение удаления всех дел
 buttonDeleteAllConfirmElement.addEventListener('click', handleDeleteAllTask);
 
+renderTodos();
+actualCounter();
 window.onload = function () {
   setInterval(function () {
     // Seconds
@@ -73,6 +68,3 @@ window.onload = function () {
     document.getElementById('hours').innerHTML = (hours < 10 ? '0' : '') + hours;
   }, 1000);
 };
-
-renderTodos();
-actualCounter();

@@ -587,16 +587,10 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 var _declarationJs = require("./declaration.js");
 var _handlersJs = require("./handlers.js");
 var _helpersJs = require("./helpers.js");
-// Модальное окно вкл и выкл, кнопка add
-(0, _declarationJs.buttonAddTodoElement).addEventListener("click", function() {
-    if ((0, _declarationJs.counterInProgressElement).textContent != 2) (0, _declarationJs.modalWindowAddElement).classList.toggle("window-hide");
-    else alert("\u041F\u0440\u0435\u0432\u044B\u0448\u0435\u043D\u043D\u043E \u043C\u0430\u043A\u0441\u0438\u043C\u0430\u043B\u044C\u043D\u043E\u0435 \u043A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E \u0434\u0435\u043B!!!!!!");
-});
+// Модальное окно вкл и выкл, кнопка (иконка плюса)
+(0, _declarationJs.buttonAddTodoElement).addEventListener("click", (0, _handlersJs.handleAddNewTask));
 // Спрятать модальное окно и сделать ресет формы, кнопка cancel в модалке
-(0, _declarationJs.buttonCancelTodoElement).addEventListener("click", function() {
-    (0, _declarationJs.modalWindowAddElement).classList.toggle("window-hide");
-    (0, _declarationJs.formElement).reset();
-});
+(0, _declarationJs.buttonCancelTodoElement).addEventListener("click", (0, _handlersJs.handleCancelModalAdd));
 // Подтверждение и рендеринг TODO, кнопка confirm
 (0, _declarationJs.buttonConfirmTodoElement).addEventListener("click", (0, _handlersJs.handleMakeTodo));
 // Делегирование на блок TODO Task, кнопки: Edit, Delete, Select
@@ -611,7 +605,10 @@ var _helpersJs = require("./helpers.js");
 (0, _declarationJs.buttonDeleteAllCancelElement).addEventListener("click", function() {
     (0, _declarationJs.modalWindowDeleteAllElement).classList.toggle("window-hide");
 });
+// Подтверждение удаления всех дел
 (0, _declarationJs.buttonDeleteAllConfirmElement).addEventListener("click", (0, _handlersJs.handleDeleteAllTask));
+(0, _helpersJs.renderTodos)();
+(0, _helpersJs.actualCounter)();
 window.onload = function() {
     setInterval(function() {
         // Seconds
@@ -625,10 +622,9 @@ window.onload = function() {
         document.getElementById("hours").innerHTML = (hours < 10 ? "0" : "") + hours;
     }, 1000);
 };
-(0, _helpersJs.renderTodos)();
-(0, _helpersJs.actualCounter)();
 
 },{"./declaration.js":"3LNmn","./handlers.js":"jlk9X","./helpers.js":"hGI1E"}],"3LNmn":[function(require,module,exports) {
+// Модальные окна
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "buttonAddTodoElement", ()=>buttonAddTodoElement);
@@ -655,25 +651,32 @@ parcelHelpers.export(exports, "buttonDeleteAllCancelElement", ()=>buttonDeleteAl
 parcelHelpers.export(exports, "todosKey", ()=>todosKey);
 const modalWindowAddElement = document.querySelector("#window-add");
 const modalWindowDeleteAllElement = document.querySelector("#window-delete");
+const formElement = document.querySelector(".modals");
+// Кнопки
 const buttonAddTodoElement = document.querySelector("#add-todo");
 const buttonConfirmTodoElement = document.querySelector("#add-confirm");
 const buttonCancelTodoElement = document.querySelector("#cancel");
 const buttonDeleteAllElement = document.querySelector(".todo-work__button_delete-all");
 const buttonDeleteAllConfirmElement = document.querySelector(".button-delete-all-confirm");
 const buttonDeleteAllCancelElement = document.querySelector(".button-delete-all-cancel");
+// Поле ввода
 const inputTitleTodoElement = document.querySelector("#todo-title");
 const inputDiscriptionTodoElement = document.querySelector("#todo-discription");
+// Основные блоки
 const todoBlockElement = document.querySelector("#task");
 const todoInProgressElement = document.querySelector("#in-progress");
 const todoDoneElement = document.querySelector("#done");
+// Селект на выбор пользователя
 const selectUserElement = document.querySelector("#users");
-const formElement = document.querySelector(".modals");
+// Счетчики колонок
 const counterTodoElement = document.querySelector("#count-tasks");
 const counterInProgressElement = document.querySelector("#count-in-progress");
 const counterDoneElement = document.querySelector("#count-done");
+// Рабочее пространство для заданий
 const spaceTodoElement = document.querySelector("#workspace-task");
 const spaceProgressElement = document.querySelector("#workspace-progress");
 const spaceDoneElement = document.querySelector("#workspace-done");
+// Ключ для localStorage
 const todosKey = "todos";
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
@@ -713,11 +716,23 @@ parcelHelpers.export(exports, "handleChangingTodoTask", ()=>handleChangingTodoTa
 parcelHelpers.export(exports, "handleMakeTodo", ()=>handleMakeTodo);
 parcelHelpers.export(exports, "handleCallModalDelete", ()=>handleCallModalDelete);
 parcelHelpers.export(exports, "handleDeleteAllTask", ()=>handleDeleteAllTask);
+parcelHelpers.export(exports, "handleAddNewTask", ()=>handleAddNewTask);
+parcelHelpers.export(exports, "handleCancelModalAdd", ()=>handleCancelModalAdd);
 var _declarationJs = require("./declaration.js");
 var _helpersJs = require("./helpers.js");
 var _storeJs = require("./store.js");
 let isEdit = false;
 let todoEditId;
+// Добавление задания кнопка плюс
+function handleAddNewTask() {
+    if ((0, _declarationJs.counterInProgressElement).textContent != 2) (0, _declarationJs.modalWindowAddElement).classList.toggle("window-hide");
+    else alert("\u041F\u0440\u0435\u0432\u044B\u0448\u0435\u043D\u043D\u043E \u043C\u0430\u043A\u0441\u0438\u043C\u0430\u043B\u044C\u043D\u043E\u0435 \u043A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E \u0434\u0435\u043B!!!!!!");
+}
+// Кнопка отмены в модальном окне на добавление дел
+function handleCancelModalAdd() {
+    (0, _declarationJs.modalWindowAddElement).classList.toggle("window-hide");
+    (0, _declarationJs.formElement).reset();
+}
 // Подтверждение TODO и отрисовка
 const handleMakeTodo = function() {
     const actualTodos = (0, _storeJs.getTodos)();
@@ -846,8 +861,9 @@ var _declarationJs = require("./declaration.js");
 var _storeJs = require("./store.js");
 function getActualTime() {
     const date = new Date(); // Data
-    const createdAt = `${date.getHours()}:${date.getMinutes()}
-  ${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate()}  `;
+    const minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+    const seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+    const createdAt = `${date.getHours()}:${minutes}:${seconds}`;
     return createdAt;
 }
 // Обновляемый счетчик в каждой колонке
@@ -875,20 +891,30 @@ function actualCounter() {
 const buildTemplateTodo = (todo, columnElement)=>{
     const { id, selectId, text, title, createdAt, userIndex } = todo;
     columnElement.insertAdjacentHTML("afterbegin", `<div class="todo-work" id="${id}">
-        <p class="todo-work__title">Title: ${title}</p>
-        <p class="todo-work__discription">Discription: ${text}</p>
-        <p>${(0, _declarationJs.selectUserElement).options[userIndex].value}</p>
-        <p>${createdAt}</p>
+        <div class="todo-work__title">
+          <p>Title:</p>
+          <p>${title}</p>
+        </div>
+        <div class="todo-work__discription">
+          <p>Discription:</p>
+          <p>${text}</p>
+        </div>
+        <div class="todo-work__user">
+          <p>User:</p>
+          <p>${(0, _declarationJs.selectUserElement).options[userIndex].value}</p>
+        </div>
+         <div class="todo-work__time">
+          <p>Time:</p>
+          <p>${createdAt}</p>
+        </div>
         <div class="todo-work__buttons">
           <button type="button" class="btn btn-primary todo-work__button_edit btn-sm">EDIT</button>
-          <button type="button" class="btn btn-primary btn-sm todo-work__button_enter">
-            <select name="" id="${selectId}">
-              <option value="Todo">Todo</option>
-              <option value="In progress">In progress</option>
-              <option value="Done">Done</option>
-            </select>
-          </button>
-          <button type="button" class="btn btn-primary todo-work__button_delete btn-sm">
+          <select class="form-select-sm" name="" id="${selectId}">
+            <option value="Todo">Todo</option>
+            <option value="In progress">In progress</option>
+            <option value="Done">Done</option>
+          </select>          
+          <button type="button" class="btn btn-danger todo-work__button_delete btn-sm">
             DELETE
           </button>
         </div>
